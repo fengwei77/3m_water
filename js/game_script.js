@@ -23,24 +23,28 @@ show_console('origin HEIGHT =' + HEIGHT);
 // HEIGHT = window.innerWidth  * (9/ 16);
 logs_ct += 'WIDTH = ' + WIDTH + '<br>';
 logs_ct += 'HEIGHT = ' + HEIGHT + '<br>';
+let origin_ratio =WIDTH/1600;
+logs_ct += 'origin_ratio = ' + origin_ratio + '<br>';
+
 let isometryPlane_distance_val = WIDTH / 2;
 let extend_height = 150;
 let germs_speed = 0.8;
-let germs_speed_base = 2;
+let germs_speed_base = 1;
 let germs_generate_speed = 50;
 let countdown = 60;
-let damage_ratio = 0.012;
+let damage_ratio = 0.112;
 let health_width = 300;
 let health_width_in = 300;
-let level = 3;
+let level = 2;
 let numberOfgerms_pop = 10;
 let germs_height = 80;
 let germs_width = 80;
 let germs_origin_height = 1;
-let germs_origin_fade_in = 0.2;
-let germs_origin_fade_out = 5;
-let block_wall_ratio = 0.2;
-let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_container, germs_no, germs_alive;  //基礎設定
+let germs_origin_fade_in = 0.1;
+let germs_origin_fade_out = 5.5;
+let block_wall_ratio = 0.85;
+let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_container, germs_no, germs_alive, time_sprite,
+    blood_sprite, time_container, blood_container;  //基礎設定
 let pause_btn, play_btn;
 const germs_fade_out_set = 0.2;
 show_console('WIDTH =' + WIDTH);
@@ -102,6 +106,16 @@ resize(app);
 window.addEventListener("resize", resize(app));
 
 //遊戲元件
+//血量
+const blood_txt = new PIXI.Text(health_width, {
+    fontFamily: '\'Noto Sans TC\', sans-serif',
+    fontSize: 28,
+    fill: 0xffff00,
+    align: 'center'
+});
+blood_txt.anchor.set(0.5);
+app.stage.addChild(blood_txt);
+blood_txt.position.set(400, 50);
 //倒數計時<
 const timer_txt = new PIXI.Text(countdown, {
     fontFamily: '\'Noto Sans TC\', sans-serif',
@@ -156,19 +170,19 @@ isometryPlane[0][0].lineStyle(0, 0xFF0000, dev_grid_line);
 isometryPlane[0][0].moveTo(WIDTH / 2, 0);
 isometryPlane[0][0].lineTo(WIDTH / 2, HEIGHT);
 isometryPlane[0][1].lineStyle(0, 0x00FF00, dev_grid_line);
-isometryPlane[0][1].moveTo(0, HEIGHT / 2.35);
-isometryPlane[0][1].lineTo(WIDTH, HEIGHT / 2.35);
+isometryPlane[0][1].moveTo(0, HEIGHT / 2.19);
+isometryPlane[0][1].lineTo(WIDTH, HEIGHT / 2.19);
 isometryPlane[0][0].zIndex = 80;
 isometryPlane[0][1].zIndex = 80;
 timer_txt.zIndex = 100;
 app.stage.addChild(isometryPlane[0][0]);
 app.stage.addChild(isometryPlane[0][1]);
-const isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.03, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.985, -(isometryPlane_distance_val) * 0.955];
-const isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.8, -(isometryPlane_distance_val) * 1.276, -(isometryPlane_distance_val) * 0.74, -(isometryPlane_distance_val) * 0.16];
+const isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.988, -(isometryPlane_distance_val) * 0.97];
+const isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.78, -(isometryPlane_distance_val) * 1.273, -(isometryPlane_distance_val) * 0.74, -(isometryPlane_distance_val) * 0.16];
 const point_arr = [];
 for (let i = 1; i < isometryPlane.length; i++) {
     isometryPlane[i].lineStyle(0, 0xffffff, dev_grid_line);
-    isometryPlane[i].moveTo(WIDTH + (isometryPlane_distance[i]), HEIGHT / 2.36);
+    isometryPlane[i].moveTo(WIDTH + (isometryPlane_distance[i]), HEIGHT / 2.18);
     isometryPlane[i].lineTo(WIDTH + (isometryPlane_distance_to[i]), HEIGHT + germs_height);
     app.stage.addChild(isometryPlane[i]);
 }
@@ -205,7 +219,7 @@ let keys = [
 
 // 遮擋區塊 -z50
 const block_wall = new PIXI.Graphics();
-block_wall.beginFill(0xFFFFFF, 0.4);
+block_wall.beginFill(0xFFFFFF, 0);
 block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
 block_wall.endFill();
 app.stage.addChild(block_wall);
@@ -216,7 +230,9 @@ loader
     .add('germs_2', "images/b_2.png")
     .add('germs_3', "images/b_3.png")
     .add('germs_4', "images/b_4.png")
-    .add('bg_sprite', "images/bg_1600_900.png")
+    .add('time_sprite', "images/game_main_time.png")
+    .add('blood_sprite', "images/game_main_life0.png")
+    .add('bg_sprite', "images/bg3_1600_900.png")
     .load(setup);
 
 //爆破
@@ -227,12 +243,16 @@ function setup() {
     germs_pop = ['5ways', [], [], [], []];
     gameScene = new Container;
     bg_container = new Container;
+    blood_container = new Container;
+    time_container = new Container;
     all_obj_container = new Container;
     show_console('health = 300');
 
     // var size = new PIXI.Rectangle(16, 32, 16, 16);
     // let bg_texture = new PIXI.Texture(loader.resources["bg_sprite"].texture,size);
     bg_sprite = new Sprite(loader.resources["bg_sprite"].texture);
+    time_sprite = new Sprite(loader.resources["time_sprite"].texture);
+    blood_sprite = new Sprite(loader.resources["blood_sprite"].texture);
     germs_origin_height = new Sprite(loader.resources["germs_1"].texture).height;
     show_console('germs_origin_height = ' + germs_origin_height);
     // action_gsap[i].pause();
@@ -244,17 +264,38 @@ function setup() {
     // bg_sprite.height = bg_sprite.height  ;
     bg_sprite.width = WIDTH + 10;
     bg_sprite.height = HEIGHT;
-    // show_console(bg_sprite.width);
+
     bg_sprite.x = 0;
     bg_sprite.y = 0;
     bg_container.addChild(bg_sprite);
+
+    blood_sprite.width =  blood_sprite.width *  origin_ratio;
+    blood_sprite.height =  blood_sprite.height *  origin_ratio;
+    blood_sprite.x = 0;
+    blood_sprite.y = 0;
+    blood_container.addChild(blood_sprite);
+
+    time_sprite.width =  time_sprite.width *  origin_ratio;
+    time_sprite.height =  time_sprite.height *  origin_ratio;
+    time_sprite.x = 0;
+    time_sprite.y = 0;
+    time_container.addChild(time_sprite);
+
     app.stage.addChild(gameScene);
+    app.stage.addChild(blood_container);
+    app.stage.addChild(time_container);
     app.stage.addChild(bg_container);
     bg_container.zIndex = -1;
+    // time_container.zIndex = -1;
+    // blood_container.zIndex = -1;
     // show_console(bg_container.width);
     // show_console(app.stage.width);
     bg_container.x = (WIDTH - bg_container.width) / 2;
     bg_container.y = (HEIGHT - bg_container.height) / 2;
+    blood_container.x = (WIDTH - blood_container.width) / 8;
+    blood_container.y =(HEIGHT - blood_container.height) / 8;
+    time_container.x = (WIDTH - time_container.width) / 1.15;
+    time_container.y = (HEIGHT - time_container.height) / 8;
     //>背景
     for (let i = 1; i < iso_path_array.length; i++) {
         point_arr[i] = isometryPlane[i].geometry.graphicsData;
@@ -336,8 +377,9 @@ function play(delta) {
     }
     bg_container.interactive = true;
     bg_container.on('pointerdown', function () {
-        console.log('bg');
-        health_width_in = health_width_in - damage;
+        // console.log('health_width_in' + health_width_in);
+        // console.log('health_width_in' + damage);
+        // health_width_in = health_width_in - damage;
         if (health_width_in > damage && countdown > 0) {
             healthBar.outer.width = health_width_in;
             return false;
@@ -360,117 +402,68 @@ function add_key_action() {
     for (let k = 1; k < germs_pop.length; k++) {
         keys[k].press = function () {
             for (let i = 0; i < germs_pop[k].length; i++) {
-
-                // germs_pop[k][i].interactive = false;
-                // console.log(germs_pop[k][i].interactive);
+                gsap.to(germs_pop[k][i].children[1], 0.5, {
+                    pixi: {alpha: 0}
+                });
                 let aBox = germs_pop[k][i].getBounds();
                 let bBox = block_wall.getBounds();
-                let res = aBox.x + aBox.width > bBox.x &&
-                    aBox.x < bBox.x + bBox.width &&
-                    aBox.y + aBox.height > bBox.y &&
-                    aBox.y < bBox.y + bBox.height;
-                if (!res) {
+
+                let res = aBox.y + aBox.height > bBox.height;
+                console.log('res1 - ' + res);
+                if (res) {
+                    PIXI.sound.play("boing", {speed: 5});
                     germs_pop[k][i].children[1].alpha = 1;
-                    gsap.to(germs_pop[k][i].children[1], 0.5, {
+                    gsap.to(germs_pop[k][i].children[1], 2, {
                         pixi: {alpha: 0}
                     });
-                    germs_pop[k][i].alpha = 0.2;
-                    germs_alive[germs_no] = false;
-                    // germs_pop[k][i].interactive = false;
-                } else {
-                    // if (germs_alive[germs_no]) {
-                    //   health_width_in = health_width_in - damage *  5;
-                    //   if (health_width_in > damage && countdown > 0) {
-                    //     healthBar.outer.width = health_width_in;
-                    //   } else {
-                    //     healthBar.outer.width = 0;
-                    //   }
-                    // }
+                    germs_pop[k][i].alpha = 0.8;
+                    germs_pop[k][i].interactive = false;
+                    germs_alive[germs_no] = 0;
+                    console.log(germs_alive[germs_no]);
                 }
 
-
-                // const sound = loader.resources["boing"].sound;
-                PIXI.sound.play("boing", {speed: 5});
-
-                console.log(germs_pop[k][i].interactive);
             }
         };
     }
 }
 
-
 //動作
 function addInteraction(obj) {
     obj.on('pointerdown', onClick);
-
 }
 
 //CLICK方法
 function onClick() {
-    this.children[1].alpha = 1;
     gsap.to(this.children[1], 0.5, {
         pixi: {alpha: 0}
     });
     let aBox = this.getBounds();
     let bBox = block_wall.getBounds();
-    let res = aBox.x + aBox.width > bBox.x &&
-        aBox.x < bBox.x + bBox.width &&
-        aBox.y + aBox.height > bBox.y &&
-        aBox.y < bBox.y + bBox.height;
 
-    if (!res) {
-
+    let res = aBox.y + aBox.height > bBox.height;
+    console.log('res1 - ' + res);
+    if (res) {
         PIXI.sound.play("boing", {speed: 5});
         this.children[1].alpha = 1;
-        gsap.to(this.children[1], 0.5, {
+        gsap.to(this.children[1], 2, {
             pixi: {alpha: 0}
         });
-        this.alpha = 0.2;
-        germs_alive[germs_no] = false;
+        this.alpha = 0.8;
+        this.interactive = false;
+        germs_alive[germs_no] = 0;
+        console.log(germs_alive[germs_no]);
     }
-    // germs_pop[k][i].interactive = false;
-    // if (germs_alive[germs_no]) {
-    //   health_width_in = health_width_in - damage *  100;
-    //   if (health_width_in > damage && countdown > 0) {
-    //     healthBar.outer.width = health_width_in;
-    //   } else {
-    //     healthBar.outer.width = 0;
-    //   }
-    // }
-
-    // if (!res) {
-    //   this.alpha = 0.2;
-    //   germs_alive[germs_no] = false;
-    //   this.interactive = false;
-    // } else {
-    //   // health_width_in = health_width_in - damage *  2;
-    //   // if (health_width_in > damage && countdown > 0) {
-    //   //   healthBar.outer.width = health_width_in;
-    //   // } else {
-    //   //   healthBar.outer.width = 0;
-    //   // }
-    // }
-    console.log(res);
-}
-
-//感應區塊
-function rectsIntersect(a, b) {
-    let aBox = a.getBounds();
-    let bBox = b.getBounds();
-    return aBox.x + aBox.width > bBox.x &&
-        aBox.x < bBox.x + bBox.width &&
-        aBox.y + aBox.height > bBox.y &&
-        aBox.y < bBox.y + bBox.height;
 }
 
 let _germs_container, _germs;
 let animatedSprite;
-let alienImages = ["images/explode_1.png"];
+let alienImages = ["images/explode_1.png", "images/explode_2.png", "images/explode_3.png"];
 let textureArray = [];
 for (let i = 0; i < alienImages.length; i++) {
-  let texture = PIXI.Texture.from(alienImages[i]);
-  textureArray.push(texture);
+    let texture = PIXI.Texture.from(alienImages[i]);
+    textureArray.push(texture);
 }
+
 function creatGerms() {
     //set 敵人
     // show_console('creatGerms' + germs_pop.length);
@@ -481,11 +474,11 @@ function creatGerms() {
     //效果
 
     animatedSprite = new PIXI.AnimatedSprite(textureArray);
-    animatedSprite.anchor.x = 0.45;
+    animatedSprite.anchor.x = 0.46;
     animatedSprite.anchor.y = 0.8;
     animatedSprite.width = animatedSprite.width * (WIDTH / bg_sprite.width) / 2.5;
     animatedSprite.height = animatedSprite.height * (HEIGHT / bg_sprite.height) / 2.5;
-    animatedSprite.alpha = 1;
+    animatedSprite.alpha = 0;
     animatedSprite.play();
     animatedSprite.interactive = false;
 //細菌<
@@ -503,7 +496,7 @@ function creatGerms() {
     _germs[r_i].anchor.x = 0.5;
     _germs[r_i].anchor.y = 0.5;
     _germs[r_i].width = _germs[r_i].width * (WIDTH / bg_sprite.width) / 2;
-    _germs[r_i].height = _germs[r_i].height * (HEIGHT / bg_sprite.height) / 2;
+    _germs[r_i].height = _germs[r_i].height * (HEIGHT / bg_sprite.height) / 2.2;
     // show_console('_germs[' + i + '].width-' + _germs[r_i].width);
     _germs[r_i].x = 0;
     _germs[r_i].y = 0;
@@ -549,14 +542,19 @@ function removeGerms() {
     for (let i = 0; i < germs_pop.length; i++) {
         for (let j = 0; j < germs_pop[i].length; j++) {
             if (germs_pop[i][j].y > (HEIGHT)) {
-                show_console('removeGerms');
                 if (germs_alive[germs_no]) {
-                    health_width_in = health_width_in - damage;
+                    if (germs_alive[germs_no - 1] != 0) {
+
+                        health_width_in = health_width_in - damage;
+                    }
+                    console.log('germs_alive[germs_no] ' + germs_alive[germs_no - 1]);
                     if (health_width_in > damage && countdown > 0) {
                         healthBar.outer.width = health_width_in;
                     } else {
                         healthBar.outer.width = 0;
                     }
+                    // show_console(health_width_in);
+                    blood_txt.text = Math.ceil(health_width_in);
                 }
                 //刪除陣列
                 germs_pop[i].splice(j, 1);
@@ -571,7 +569,6 @@ function removeGerms() {
         gameScene.visible = false;
     }
 }
-
 
 //按鍵方法
 function keyboard(keyCode) {
@@ -620,39 +617,6 @@ function show_console(msg = '') {
     }
 }
 
-function hitTestRectangle(r1, r2) {
-    let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
-    hit = false;
-    r1.centerX = r1.x + r1.width / 2;
-    r1.centerY = r1.y + r1.height / 2;
-    r2.centerX = r2.x + r2.width / 2;
-    r2.centerY = r2.y + r2.height / 2;
-
-    r1.halfWidth = r1.width / 2;
-    r1.halfHeight = r1.height / 2;
-    r2.halfWidth = r2.width / 2;
-    r2.halfHeight = r2.height / 2;
-
-    vx = r1.centerX - r2.centerX;
-    vy = r1.centerY - r2.centerY;
-
-    combinedHalfWidths = r1.halfWidth + r2.halfWidth;
-    combinedHalfHeights = r1.halfHeight + r2.halfHeight;
-
-    if (Math.abs(vx) < combinedHalfWidths) {
-
-        if (Math.abs(vy) < combinedHalfHeights) {
-            hit = true;
-        } else {
-            hit = false;
-        }
-    } else {
-        hit = false;
-    }
-
-    return hit;
-}
-
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -684,6 +648,43 @@ function get5WayArr(lv) {
             [3, 4, 1, 2]
         ];
     }
+    if (lv == 4) {
+        arr = [
+            [1, 1, 1, 1],
+            [1, 1, 1, 1],
+            [1, 1, 1, 1],
+            [1, 1, 1, 1],
+            [1, 1, 1, 1]
+        ];
+    }
+    if (lv == 5) {
+        arr = [
+            [2, 2, 2, 2],
+            [2, 2, 2, 2],
+            [2, 2, 2, 2],
+            [2, 2, 2, 2],
+            [2, 2, 2, 2]
+        ];
+    }
+    if (lv == 6) {
+        arr = [
+            [3, 3, 3, 3],
+            [3, 3, 3, 3],
+            [3, 3, 3, 3],
+            [3, 3, 3, 3],
+            [3, 3, 3, 3]
+        ];
+    }
+    if (lv == 7) {
+        arr = [
+            [4, 4, 4, 4],
+            [4, 4, 4, 4],
+            [4, 4, 4, 4],
+            [4, 4, 4, 4],
+            [4, 4, 4, 4]
+        ];
+    }
+
     return arr;
 }
 
@@ -717,8 +718,7 @@ function resize(app) {
         app.renderer.resize(nvw, nvh);
 
 
-
-      $('#gameContainer').css({'height': nvh});
+        $('#gameContainer').css({'height': nvh});
         // This command scales the stage to fit the new size of the game.
         app.stage.scale.set(nvw / WIDTH, nvh / HEIGHT);
 

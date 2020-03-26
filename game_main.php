@@ -31,7 +31,7 @@
 
         #log{
             position: absolute;
-            right: 5%;
+            right: 45%;
             top: 5%;
             padding: 10px;
             display: block;
@@ -49,7 +49,7 @@
             text-align: center;
             z-index: 1;
             position: relative;
-            background-color: #3c728d;
+            background-color: #005d7e;
         }
 
     </style>

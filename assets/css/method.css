@@ -1,0 +1,207 @@
+@charset "UTF-8";
+
+.method{
+	display: inline-block;
+	position: relative;
+	width: 1240px;
+	min-height: 595px;
+	background: url(../images/method_panel.png);
+	background-size: 1240px auto;
+	background-repeat: no-repeat;
+	background-position: top center;
+
+	padding: 160px 50px 20px 50px;
+	margin: 0 auto;
+}
+
+.method .detail{
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 20px 40px;
+	background: rgba(255, 255, 255, 0.2);
+	text-align: left;
+}
+
+.method .detail span.subject{
+	display: inline-block;
+	width: 100%;
+	float: left;
+	padding-bottom: 5px;
+	font-size: 18px;
+	font-weight: 700;
+	color: #e5171c;
+	text-align: left;
+}
+
+.method .detail p{
+	font-size: 15px;
+	letter-spacing: 1px;
+	color: #FFF;
+}
+
+.method .detail ol{
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 0px 0px 0 30px;
+	color: #FFF;
+	letter-spacing: 1px;
+	font-size: 15px;
+}
+
+/*小於等於1680*/
+@media (max-width: 1680px) {
+}
+
+/*小於等於1440*/
+@media (max-width: 1440px) {
+}
+/*小於等於1366*/
+@media (max-width: 1366px) {
+	.method{
+		width: 1200px;
+		min-height: 576px;
+		background-size: 1200px auto;
+	}
+}
+
+/*小於等於1280*/
+@media (max-width: 1280px) {
+	.method{
+		padding: 130px 20px 10px 20px;
+		width: 1000px;
+		min-height: 480px;
+		background-size: 1000px auto;
+	}
+
+	.method .detail{
+		padding: 5px 5px;
+	}
+
+	.method .detail span.subject{
+		padding-bottom: 0;
+		font-size: 16px;
+	}
+
+	.method .detail p{
+		margin-bottom: 0;
+		font-size: 14px;
+		letter-spacing: 0px;
+	}
+
+	.method .detail ol{
+		font-size: 14px;
+		letter-spacing: 0px;
+	}
+}
+
+/*小於等於1024*/
+@media (max-width: 1024px) {
+	.method{
+		padding: 120px 10px 5px 10px;
+		width: 950px;
+		background-size: 950px auto;
+	}
+}
+
+/*小於等於960*/
+@media (max-width: 960px) {
+	.method{
+		width: 857px;
+		min-height: 1048px;
+		background: url(../images/method_panel_m.png);
+		background-size: 857px auto;
+		background-repeat: no-repeat;
+		background-position: top center;
+
+		padding: 250px 20px 20px 20px;
+		margin: 0 auto;
+	}
+
+	.method .detail{
+		padding: 20px 20px;
+	}
+
+	.method .detail span.subject{
+		font-size: 28px;
+	}
+
+	.method .detail p{
+		font-size: 24px;
+	}
+
+	.method .detail ol{
+		font-size: 24px;
+	}
+}
+
+/*小於等於768*/
+@media (max-width: 768px) {
+	.method{
+		width: 650px;
+		min-height: 1068px;
+		background: url(../images/method_panel_m.png);
+		background-size: 650px auto;
+		background-repeat: no-repeat;
+		background-position: top center;
+
+		padding: 200px 20px 20px 20px;
+		margin: 0 auto;
+	}
+
+	.method .detail{
+		padding: 20px 20px;
+	}
+
+	.method .detail span.subject{
+		font-size: 26px;
+	}
+
+	.method .detail p{
+		font-size: 22px;
+	}
+
+	.method .detail ol{
+		font-size: 22px;
+	}
+}
+
+@media (max-width: 480px) {
+	.method{
+		width: 360px;
+		min-height: 592px;
+		background: url(../images/method_panel_m.png);
+		background-size: 360px auto;
+		background-repeat: no-repeat;
+		background-position: top center;
+
+		padding: 100px 10px 10px 10px;
+		margin: 0 auto;
+	}
+
+	.method .detail{
+		padding: 0px 10px;
+	}
+
+	.method .detail span.subject{
+		font-size: 14px;
+	}
+
+	.method .detail p{
+		font-size: 13px;
+	}
+
+	.method .detail ol{
+		padding-left: 20px;
+		font-size: 13px;
+	}
+}
+
+/*小於等於414*/
+@media (max-width: 414px) {
+}
+
+/*小於等於350*/
+@media (max-width: 350px) {
+}

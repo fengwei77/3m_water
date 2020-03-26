@@ -1,0 +1,259 @@
+@charset "UTF-8";
+
+.product{
+	display: inline-block;
+	position: relative;
+	width: 1366px;
+	margin: 0 auto;
+	clear: left;
+}
+
+.product .item{
+	width: 33.3333333%;
+	float: left;
+	min-height: 600px;
+	text-align: center;
+	background: url(../images/product_item_bg.png);
+	background-size: 369px auto;
+	background-repeat: no-repeat;
+	background-position: top center;
+}
+
+.product .item .detail{
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 80px 60px;
+}
+
+.product .item .detail ul{
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 30px;
+	list-style: none;
+	min-height: 180px;
+}
+
+.product .item .detail ul li::before {
+  content: "\2022";
+  color: red;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.product .item .detail ul li{
+	text-align: left;
+	font-size: 16px;
+	color: #FFF;
+	letter-spacing: 0;
+	padding-bottom: 10px; 
+}
+
+.product .item .detail a.more{
+	float: right;
+	display: inline-block;
+	color: #00fff6;
+	text-decoration: none;
+}
+
+.product .item .detail a.more:hover{
+	color: #b8fffc;
+	text-decoration: none;
+}
+
+/*小於等於1680*/
+@media (max-width: 1680px) {
+}
+
+/*小於等於1440*/
+@media (max-width: 1440px) {
+}
+/*小於等於1366*/
+@media (max-width: 1366px) {
+	.product{
+		width: 1280px;
+	}
+
+	.product .item{
+		min-height: 560px;
+		background-size: 340px auto;
+	}
+}
+
+/*小於等於1280*/
+@media (max-width: 1280px) {
+	.product{
+		width: 1024px;
+	}
+
+	.product .item{
+		min-height: 460px;
+		background-size: 280px auto;
+	}
+
+	.product .item .detail{
+		padding: 40px 40px;
+	}
+
+	.product .item .detail ul{
+		padding: 15px 5px 15px 15px;
+		min-height: 150px;
+	}
+}
+
+/*小於等於1024*/
+@media (max-width: 1024px) {
+	.product{
+		width: 960px;
+	}
+
+	.product .item .detail ul{
+		min-height: 200px;
+	}
+}
+
+/*小於等於960*/
+@media (max-width: 960px) {
+	.product{
+		display: inline-block;
+		position: relative;
+		width: 852px;
+		min-height: 3009px;
+		margin: 0 auto;
+		padding: 150px 0 0 0;
+		clear: left;
+		background: url(../images/product_bg_m.png);
+		background-size: 852px auto;
+		background-repeat: no-repeat;
+		background-position: top center;
+	}
+
+	.product .item{
+		width: 100%;
+		float: left;
+		padding-bottom: 80px;
+		min-height: auto;
+		text-align: center;
+		background: none;
+	}
+
+	.product .item .detail{
+		position: relative;
+		float: left;
+		width: 100%;
+		padding: 80px 80px;
+	}
+
+	.product .item .detail ul{
+		position: relative;
+		float: left;
+		width: 100%;
+		padding: 30px;
+		list-style: none;
+		min-height: auto;
+	}
+
+	.product .item .detail ul li::before {
+	  content: "\2022";
+	  color: red;
+	  display: inline-block;
+	  width: 1em;
+	  margin-left: -1em;
+	}
+
+	.product .item .detail ul li{
+		text-align: left;
+		font-size: 32px;
+		color: #FFF;
+		letter-spacing: 0;
+		padding-bottom: 10px; 
+	}
+
+	.product .item .detail a.more{
+		font-size: 32px;
+		text-decoration: none;
+	}
+
+	.product .item .detail a.more:hover{
+		color: #b8fffc;
+		text-decoration: none;
+	}
+}
+
+/*小於等於768*/
+@media (max-width: 768px) {
+	.product{
+		width: 680px;
+		min-height: 2400px;
+		padding: 140px 0 0 0;
+		background-size: 680px auto;
+	}
+
+	.product .item{
+		padding-bottom: 30px;
+	}
+
+	.product .item .detail{
+		position: relative;
+		float: left;
+		width: 100%;
+		padding: 30px 30px;
+	}
+
+	.product .item .detail ul{
+		padding: 30px;
+	}
+
+	.product .item .detail ul li{
+		font-size: 28px;
+		padding-bottom: 10px; 
+	}
+
+	.product .item .detail a.more{
+		font-size: 32px;
+	}
+}
+
+@media (max-width: 480px) {
+	.product{
+		width: 320px;
+		min-height: 1130px;
+		padding: 60px 0 0 0;
+		background-size: 320px auto;
+	}
+
+	.product .item{
+		padding-bottom: 20px;
+	}
+
+	.product .item .detail{
+		position: relative;
+		float: left;
+		width: 100%;
+		padding: 15px 15px 10px 10px;
+	}
+
+	.product .item .detail ul{
+		padding: 10px 0 0 30px;
+	}
+
+	.product .item .detail ul li{
+		font-size: 16px;
+		padding-bottom: 6px; 
+	}
+
+	.product .item .detail a.more{
+		font-size: 16px;
+	}
+	
+}
+
+/*小於等於414*/
+@media (max-width: 414px) {
+}
+
+/*小於等於350*/
+@media (max-width: 350px) {
+}

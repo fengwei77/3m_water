@@ -44,7 +44,13 @@
 			<!--header end-->
 			<!--game cut-1 start-->
 			<div class="game-choice refrommiddle">
-				<a href="game_role.html"><img src="assets/images/game_choice.png" class="Imgfull"></a>
+				<div class="induction">
+					<!--<a href="game_role.html"><img src="assets/images/game_choice.png" class="Imgfull"></a>-->
+					<img src="assets/images/game_choice.png" class="Imgfull">
+					<a href="game_role_1.html" class="game-choice-p game-choice-p1"></a>
+					<a href="game_role_2.html" class="game-choice-p game-choice-p2"></a>
+					<a href="game_role_3.html" class="game-choice-p game-choice-p3"></a>
+				</div>
 			</div>
 			<!--game cut-1 end-->
 		</div>
@@ -66,12 +72,20 @@
 			</header>
 			<!--header end-->
 			<!--game cut-1 start-->
-			<div class="game-choice refrommiddle">
+			<div class="game-choice">
 				<div class="owl-carousel carousel-type1">
-					<div><a href="game_role.html"><img src="assets/images/game_choice_role_1_m.png" class="Imgfull"></a></div>
-					<div><a href="game_role.html"><img src="assets/images/game_choice_role_2_m.png" class="Imgfull"></a></div>
-					<div><a href="game_role.html"><img src="assets/images/game_choice_role_3_m.png" class="Imgfull"></a></div>
+					<div><a href="game_role_1.html"><img src="assets/images/game_choice_role_1_m.png" class="Imgfull"></a></div>
+					<div><a href="game_role_2.html"><img src="assets/images/game_choice_role_2_m.png" class="Imgfull"></a></div>
+					<div><a href="game_role_3.html"><img src="assets/images/game_choice_role_3_m.png" class="Imgfull"></a></div>
 				</div>
+				<!--左右鍵 start-->
+				<div class="cut-arrow-left">
+					<a href="javascript:void(0);" class="customPrevBtn"><img src="assets/images/cut-arrow-left-btn.png"></a>
+				</div>
+				<div class="cut-arrow-right">
+					<a href="javascript:void(0);" class="customNextBtn"><img src="assets/images/cut-arrow-right-btn.png"></a>
+				</div>
+				<!--左右鍵 end-->
 			</div>
 			<!--game cut-1 end-->
 		</div>
@@ -103,6 +117,44 @@
 		<script src="assets/js/scrollreveal-by-lihsi.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
+			var owl = $('.carousel-type1');
+			owl.owlCarousel({
+			    items:1,
+			    autoplay: false,
+			    autoplayTimeout: 10000
+			})
+
+			owl.on('changed.owl.carousel', function(event) {
+    			var items = event.item.count;     // Number of items
+    			var item  = event.item.index;
+				if(item==0)
+				{
+					$(".cut-arrow-left").hide();
+				}
+				else
+				{
+					$(".cut-arrow-left").show();
+				}
+
+				if(item==2)
+				{
+					$(".cut-arrow-right").hide();
+				}
+				else
+				{
+					$(".cut-arrow-right").show();
+				}
+			});
+
+			$('.customNextBtn').click(function() {
+			    owl.trigger('next.owl.carousel');
+			})
+			// Go to the previous item
+			$('.customPrevBtn').click(function() {
+			    owl.trigger('prev.owl.carousel');
+			})
+
+			/*
 			$(".carousel-type1").owlCarousel({
 				items:1,
 			    loop:true,
@@ -116,6 +168,14 @@
 			    navText : ["<i class='fa fa-caret-left'></i>","<i class='fa fa-caret-right'></i>"],
 			});
 			
+			$('.customNextBtn').click(function() {
+			    owl.trigger('next.owl.carousel');
+			})
+			// Go to the previous item
+			$('.customPrevBtn').click(function() {
+			    owl.trigger('prev.owl.carousel');
+			})
+			*/
 		});
 		</script>
 	</body>

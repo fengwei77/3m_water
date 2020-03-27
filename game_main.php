@@ -31,7 +31,7 @@
 
         #log{
             position: absolute;
-            right: 45%;
+            right: 15%;
             top: 5%;
             padding: 10px;
             display: block;
@@ -110,6 +110,7 @@
 		<script src="assets/js/scrollreveal-by-lihsi.js"></script>
         <!-- game js -->
         <script src="js/vendor/modernizr-3.8.0.min.js"></script>
+        <script src="node_modules/mobile-detect/mobile-detect.min.js"></script>
         <script src="node_modules/eventemitter3-timer/dist/eventemitter3-timer.min.js"></script>
         <script src="node_modules/pixi.js/dist/pixi.min.js"></script>
         <script src="node_modules/pixi-sound/dist/pixi-sound.js"></script>
@@ -123,7 +124,7 @@
 
 		<script type="text/javascript">
 		$(document).ready(function(){
-			
+
 		});
 		</script>
     </body>

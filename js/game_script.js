@@ -8,9 +8,8 @@ var w = window,
     g = d.getElementsByTagName('body')[0],
     x = w.innerWidth || e.clientWidth || g.clientWidth,
     y = w.innerHeight || e.clientHeight || g.clientHeight;
-
+var md = new MobileDetect(window.navigator.userAgent);
 logs_ct += 'y = ' + y + '<br>';
-
 logs_ct += 'x = ' + y * (16 / 9) + '<br>';
 // let WIDTH = 1920;
 // let HEIGHT = WIDTH * (9 / 16);
@@ -27,21 +26,23 @@ let origin_ratio =WIDTH/1600;
 logs_ct += 'origin_ratio = ' + origin_ratio + '<br>';
 
 let isometryPlane_distance_val = WIDTH / 2;
-let extend_height = 150;
 let germs_speed = 0.8;
 let germs_speed_base = 1;
-let germs_generate_speed = 50;
+let germs_generate_speed = 30;
 let countdown = 60;
-let damage_ratio = 0.112;
-let health_width = 300;
-let health_width_in = 300;
+let damage_ratio = 0.1;
+let health_width = 220;
+let health_width_in = 220;
 let level = 2;
-let numberOfgerms_pop = 10;
 let germs_height = 80;
 let germs_width = 80;
 let germs_origin_height = 1;
 let germs_origin_fade_in = 0.1;
 let germs_origin_fade_out = 5.5;
+console.log('mobile' + md.mobile());
+if(WIDTH < 750 &&  md.mobile() != null){
+    germs_origin_fade_out = 2.4;
+}
 let block_wall_ratio = 0.85;
 let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_container, germs_no, germs_alive, time_sprite,
     blood_sprite, time_container, blood_container;  //基礎設定
@@ -101,31 +102,58 @@ for (let name in manifest) {
 
 
 // Perform initial resizing
-resize(app);
+// resize(app);
 // browser window is resized.
 window.addEventListener("resize", resize(app));
+// setTimeout(function(){
+    const vpw = window.innerWidth;  // Width of the viewport
+    const vph = window.innerHeight; // Height of the viewport
+    let nvw; // New game width
+    let nvh; // New game height
+    if (vph / vpw < HEIGHT / WIDTH) {
+        nvh = vph;
+        nvw = (nvh * WIDTH) / HEIGHT;
+    } else {
+        // In the else case, the opposite is happening.
+        nvw = vpw;
+        nvh = (nvw * HEIGHT) / WIDTH;
+    }
+    app.renderer.resize(nvw, nvh);
+
+    $('#gameContainer').css({'height': nvh});
+    // This command scales the stage to fit the new size of the game.
+    app.stage.scale.set(nvw / WIDTH, nvh / HEIGHT);
+// },500);
 
 //遊戲元件
 //血量
-const blood_txt = new PIXI.Text(health_width, {
+const blood_txt = new PIXI.Text( Math.ceil(health_width_in/ health_width * 100) , {
     fontFamily: '\'Noto Sans TC\', sans-serif',
-    fontSize: 28,
-    fill: 0xffff00,
+    fontSize: 55,
+    fill: 0xED0000,
     align: 'center'
 });
 blood_txt.anchor.set(0.5);
 app.stage.addChild(blood_txt);
-blood_txt.position.set(400, 50);
+blood_txt.position.set( (WIDTH - blood_txt.width) / 6.40, (HEIGHT - blood_txt.height) / 4.7);
+
 //倒數計時<
-const timer_txt = new PIXI.Text(countdown, {
+let timer_txt = new PIXI.Text(countdown, {
     fontFamily: '\'Noto Sans TC\', sans-serif',
-    fontSize: 28,
-    fill: 0xffffff,
+    fontSize: 55,
+    fill: 0xED0000,
     align: 'center'
 });
 timer_txt.anchor.set(0.5);
 app.stage.addChild(timer_txt);
-timer_txt.position.set(400, 30);
+timer_txt.position.set( (WIDTH - timer_txt.width) / 1.123, (HEIGHT - timer_txt.height) / 4.7);
+if(WIDTH < 750 &&  md.mobile() != null){
+    blood_txt.style.fontSize = 20;
+    blood_txt.position.set( (WIDTH - blood_txt.width) / 6.4, (HEIGHT - blood_txt.height) / 3.22);
+    timer_txt.style.fontSize = 20;
+    timer_txt.position.set( (WIDTH - timer_txt.width) / 1.122, (HEIGHT - timer_txt.height) / 3.22);
+}
+
 const timer = new EE3Timer.Timer(1000);
 timer.repeat = countdown;
 timer.on('start', elapsed => {
@@ -133,7 +161,7 @@ timer.on('start', elapsed => {
 });
 timer.on('end', elapsed => {
     show_console('end', elapsed);
-    timer_txt.text = '時間到';
+    timer_txt.text = '0';
     player_action = false;
     for (let i = 0; i < germs_pop.length; i++) {
         if (germs_pop[i].alpha > 0) {
@@ -177,11 +205,17 @@ isometryPlane[0][1].zIndex = 80;
 timer_txt.zIndex = 100;
 app.stage.addChild(isometryPlane[0][0]);
 app.stage.addChild(isometryPlane[0][1]);
-const isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.988, -(isometryPlane_distance_val) * 0.97];
-const isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.78, -(isometryPlane_distance_val) * 1.273, -(isometryPlane_distance_val) * 0.74, -(isometryPlane_distance_val) * 0.16];
+
+let isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.988, -(isometryPlane_distance_val) * 0.97];
+let isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.78, -(isometryPlane_distance_val) * 1.273, -(isometryPlane_distance_val) * 0.74, -(isometryPlane_distance_val) * 0.16];
+if(WIDTH < 750 &&  md.mobile() != null){
+    console.log(' md.mobile() '+  md.mobile() );
+     isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.988, -(isometryPlane_distance_val) * 0.965];
+     isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.925, -(isometryPlane_distance_val) * 1.319, -(isometryPlane_distance_val) * 0.68, -(isometryPlane_distance_val) * (-0.09)];
+}
 const point_arr = [];
 for (let i = 1; i < isometryPlane.length; i++) {
-    isometryPlane[i].lineStyle(0, 0xffffff, dev_grid_line);
+    isometryPlane[i].lineStyle(2, 0xffffff, dev_grid_line);
     isometryPlane[i].moveTo(WIDTH + (isometryPlane_distance[i]), HEIGHT / 2.18);
     isometryPlane[i].lineTo(WIDTH + (isometryPlane_distance_to[i]), HEIGHT + germs_height);
     app.stage.addChild(isometryPlane[i]);
@@ -192,19 +226,25 @@ const action_gsap = [];
 
 //血量<
 const healthBar = new PIXI.Container();
-healthBar.position.set(20, 20)
+healthBar.position.set( (WIDTH - healthBar.width) / 5.45, (HEIGHT - healthBar.height) / 5.45);
 app.stage.addChild(healthBar);
 let innerBar = new PIXI.Graphics();
 innerBar.beginFill(0x000000);
-innerBar.drawRect(0, 0, health_width, 20);
+innerBar.drawRect(0, 0, health_width, 0);
 innerBar.endFill();
 healthBar.addChild(innerBar);
 let outerBar = new PIXI.Graphics();
-outerBar.beginFill(0xFF3300);
-outerBar.drawRect(0, 0, health_width_in, 20);
+outerBar.beginFill(0x002D64);
+outerBar.drawRect(0, 0, health_width_in, 28);
 outerBar.endFill();
 healthBar.addChild(outerBar);
 healthBar.outer = outerBar;
+if(WIDTH < 750 &&  md.mobile() != null){
+    healthBar.width = 220 *  origin_ratio;
+    healthBar.height = 12;
+    healthBar.position.set( (WIDTH - healthBar.width) /4.7, (HEIGHT - healthBar.height) / 3.5);
+}
+
 //>血量
 
 //增加按鈕< Z X C V B
@@ -296,6 +336,14 @@ function setup() {
     blood_container.y =(HEIGHT - blood_container.height) / 8;
     time_container.x = (WIDTH - time_container.width) / 1.15;
     time_container.y = (HEIGHT - time_container.height) / 8;
+
+    if(WIDTH < 750 &&  md.mobile() != null){
+        blood_container.x = (WIDTH - blood_container.width) / 8;
+        blood_container.y =(HEIGHT - blood_container.height) / 4.2;
+        time_container.x = (WIDTH - time_container.width) / 1.15;
+        time_container.y = (HEIGHT - time_container.height) / 4.2;
+
+    }
     //>背景
     for (let i = 1; i < iso_path_array.length; i++) {
         point_arr[i] = isometryPlane[i].geometry.graphicsData;
@@ -305,7 +353,6 @@ function setup() {
             iso_path_array[i].push({x: this_points[j], y: this_points[j + 1]});
             // show_console(iso_path_array[i]);
         }
-
     }
 
     // const sound = PIXI.sound.play("loop1",{autoplay: true,loop: true});
@@ -457,7 +504,7 @@ function onClick() {
 
 let _germs_container, _germs;
 let animatedSprite;
-let alienImages = ["images/explode_1.png", "images/explode_2.png", "images/explode_3.png"];
+let alienImages = ["images/explode_1.png", "images/explode_2.png", "images/explode_3.png", "images/explode_4.png" ];
 let textureArray = [];
 for (let i = 0; i < alienImages.length; i++) {
     let texture = PIXI.Texture.from(alienImages[i]);
@@ -548,13 +595,19 @@ function removeGerms() {
                         health_width_in = health_width_in - damage;
                     }
                     console.log('germs_alive[germs_no] ' + germs_alive[germs_no - 1]);
-                    if (health_width_in > damage && countdown > 0) {
+                    if (health_width_in >  damage-1 && countdown > 0) {
                         healthBar.outer.width = health_width_in;
                     } else {
                         healthBar.outer.width = 0;
                     }
-                    // show_console(health_width_in);
-                    blood_txt.text = Math.ceil(health_width_in);
+                    if(health_width_in >= 0){
+                        // show_console(health_width_in);
+                        blood_txt.text = Math.ceil(health_width_in/ health_width * 100) ;
+                    }else{
+                        timer.stop();
+                        return false;
+                    }
+
                 }
                 //刪除陣列
                 germs_pop[i].splice(j, 1);

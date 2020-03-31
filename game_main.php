@@ -30,11 +30,11 @@
     <style>
 
         #log{
+            display: none;
             position: absolute;
             right: 15%;
             top: 5%;
             padding: 10px;
-            display: block;
             background: black;
             opacity: 0.85;
             color: yellow;

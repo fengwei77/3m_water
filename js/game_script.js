@@ -1,7 +1,7 @@
 const show_debug = true;
 const dev_grid_line = 1;
 let logs_ct = '';
-gsap.registerPlugin(gsap, MotionPathPlugin, EaselPlugin, PixiPlugin, TextPlugin, TweenMax, TimelineMax, Power2, Power0);
+gsap.registerPlugin(gsap, MotionPathPlugin, EaselPlugin, PixiPlugin, TextPlugin, TweenMax, TimelineMax, Power4, Power3, Power2, Power1, Power0);
 var w = window,
     d = document,
     e = d.documentElement,
@@ -22,7 +22,7 @@ show_console('origin HEIGHT =' + HEIGHT);
 // HEIGHT = window.innerWidth  * (9/ 16);
 logs_ct += 'WIDTH = ' + WIDTH + '<br>';
 logs_ct += 'HEIGHT = ' + HEIGHT + '<br>';
-let origin_ratio =WIDTH/1600;
+let origin_ratio = WIDTH / 1600;
 logs_ct += 'origin_ratio = ' + origin_ratio + '<br>';
 
 let isometryPlane_distance_val = WIDTH / 2;
@@ -34,33 +34,33 @@ let countdown = 60;
 let damage_ratio = 0.1;
 let health_width = 220;
 let health_width_in = 220;
-let level = 4;
+let level = 2;
 let germs_height = 80;
 let germs_width = 80;
 let germs_origin_height = 1;
 let germs_origin_fade_in = 0.1;
 let germs_origin_fade_out = 4;
-let block_wall_ratio = 0.8;
+let block_wall_ratio = 0.88;
 console.log('mobile' + md.mobile());
-if(level == 1){
+if (level == 1) {
     germs_speed = 1;
     germs_speed_base = 1;
     germs_generate_speed = 30;
 }
-if(level == 2){
-     germs_speed = 0.8;
-     germs_speed_base = 1;
-     germs_generate_speed = 40;
-}else if(level == 3){
-     germs_speed = 0.2;
-     germs_speed_base = 1;
-     germs_generate_speed = 20;
-}else{
-     germs_speed = 1;
-     germs_speed_base = 1;
-     germs_generate_speed = 30;
+if (level == 2) {
+    germs_speed = 0.8;
+    germs_speed_base = 1;
+    germs_generate_speed = 40;
+} else if (level == 3) {
+    germs_speed = 0.6;
+    germs_speed_base = 1;
+    germs_generate_speed = 20;
+} else {
+    germs_speed = 1;
+    germs_speed_base = 1;
+    germs_generate_speed = 30;
 }
-if(WIDTH < 750 &&  md.mobile() != null){
+if (WIDTH < 750 && md.mobile() != null) {
     block_wall_ratio = 0.88;
     germs_origin_fade_out = 1.7;
 }
@@ -92,13 +92,13 @@ let opt = {
 let player_action = true;
 //遊戲場景
 const manifest = {
-    loop1: 'sounds/loops/loop1.mp3',
+    loop1: 'sounds/gs.mp3',
     loop2: 'sounds/loops/loop2.mp3',
     loop3: 'sounds/loops/loop3.mp3',
     loop4: 'sounds/loops/loop4.mp3',
     bird: 'sounds/bird.mp3',
-    boing: 'sounds/boing.mp3',
-    buzzer: 'sounds/buzzer.mp3',
+    boing: 'sounds/clear.mp3',
+    buzzer: 'sounds/mechanical.mp3',
     car: 'sounds/car.mp3',
     chime: 'sounds/chime.mp3',
     success: 'sounds/success.mp3',
@@ -127,29 +127,29 @@ for (let name in manifest) {
 // browser window is resized.
 window.addEventListener("resize", resize(app));
 // setTimeout(function(){
-    const vpw = window.innerWidth;  // Width of the viewport
-    const vph = window.innerHeight; // Height of the viewport
-    let nvw; // New game width
-    let nvh; // New game height
-    if (vph / vpw < HEIGHT / WIDTH) {
-        nvh = vph;
-        nvw = (nvh * WIDTH) / HEIGHT;
-    } else {
-        // In the else case, the opposite is happening.
-        nvw = vpw;
-        nvh = (nvw * HEIGHT) / WIDTH;
-    }
-    app.renderer.resize(nvw, nvh);
+const vpw = window.innerWidth;  // Width of the viewport
+const vph = window.innerHeight; // Height of the viewport
+let nvw; // New game width
+let nvh; // New game height
+if (vph / vpw < HEIGHT / WIDTH) {
+    nvh = vph;
+    nvw = (nvh * WIDTH) / HEIGHT;
+} else {
+    // In the else case, the opposite is happening.
+    nvw = vpw;
+    nvh = (nvw * HEIGHT) / WIDTH;
+}
+app.renderer.resize(nvw, nvh);
 
-    $('#gameContainer').css({'height': nvh});
-    // This command scales the stage to fit the new size of the game.
-    app.stage.scale.set(nvw / WIDTH, nvh / HEIGHT);
+$('#gameContainer').css({'height': nvh});
+// This command scales the stage to fit the new size of the game.
+app.stage.scale.set(nvw / WIDTH, nvh / HEIGHT);
 
 // },500);
 
 //遊戲元件
 //血量
-const blood_txt = new PIXI.Text( Math.ceil(health_width_in/ health_width * 100) , {
+const blood_txt = new PIXI.Text(Math.ceil(health_width_in / health_width * 100), {
     fontFamily: '\'Noto Sans TC\', sans-serif',
     fontSize: 55,
     fill: 0xED0000,
@@ -157,7 +157,7 @@ const blood_txt = new PIXI.Text( Math.ceil(health_width_in/ health_width * 100) 
 });
 blood_txt.anchor.set(0.5);
 app.stage.addChild(blood_txt);
-blood_txt.position.set( (WIDTH - blood_txt.width) / 6.40, (HEIGHT - blood_txt.height) / 4.7);
+blood_txt.position.set((WIDTH - blood_txt.width) / 6.40, (HEIGHT - blood_txt.height) / 4.7);
 
 //倒數計時<
 let timer_txt = new PIXI.Text(countdown, {
@@ -168,12 +168,12 @@ let timer_txt = new PIXI.Text(countdown, {
 });
 timer_txt.anchor.set(0.5);
 app.stage.addChild(timer_txt);
-timer_txt.position.set( (WIDTH - timer_txt.width) / 1.123, (HEIGHT - timer_txt.height) / 4.7);
-if(WIDTH < 750 &&  md.mobile() != null){
+timer_txt.position.set((WIDTH - timer_txt.width) / 1.123, (HEIGHT - timer_txt.height) / 4.7);
+if (WIDTH < 750 && md.mobile() != null) {
     blood_txt.style.fontSize = 20;
-    blood_txt.position.set( (WIDTH - blood_txt.width) / 6.4, (HEIGHT - blood_txt.height) / 3.22);
+    blood_txt.position.set((WIDTH - blood_txt.width) / 6.4, (HEIGHT - blood_txt.height) / 3.22);
     timer_txt.style.fontSize = 20;
-    timer_txt.position.set( (WIDTH - timer_txt.width) / 1.122, (HEIGHT - timer_txt.height) / 3.22);
+    timer_txt.position.set((WIDTH - timer_txt.width) / 1.122, (HEIGHT - timer_txt.height) / 3.22);
 }
 
 const timer = new EE3Timer.Timer(1000);
@@ -198,7 +198,7 @@ timer.on('repeat', (elapsed, repeat) => {
     timer_txt.text = countdown;
 });
 timer.on('stop', elapsed => {
-    show_console('stop');
+    // show_console('stop');
 });
 timer.start();
 //>倒數計時
@@ -228,12 +228,12 @@ timer_txt.zIndex = 100;
 app.stage.addChild(isometryPlane[0][0]);
 app.stage.addChild(isometryPlane[0][1]);
 
-let isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.988, -(isometryPlane_distance_val) * 0.97];
+let isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.023, -(isometryPlane_distance_val) * 1.006, -(isometryPlane_distance_val) * 0.982, -(isometryPlane_distance_val) * 0.959];
 let isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.745, -(isometryPlane_distance_val) * 1.235, -(isometryPlane_distance_val) * 0.76, -(isometryPlane_distance_val) * 0.22];
-if(WIDTH < 750 &&  md.mobile() != null){
-    console.log(' md.mobile() '+  md.mobile() );
-     isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 1.01, -(isometryPlane_distance_val) * 0.988, -(isometryPlane_distance_val) * 0.965];
-     isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.88, -(isometryPlane_distance_val) * 1.266, -(isometryPlane_distance_val) * 0.71, -(isometryPlane_distance_val) * (0.088)];
+if (WIDTH < 750 && md.mobile() != null) {
+    console.log(' md.mobile() ' + md.mobile());
+    isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 0.999, -(isometryPlane_distance_val) * 0.976, -(isometryPlane_distance_val) * 0.954];
+    isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.88, -(isometryPlane_distance_val) * 1.266, -(isometryPlane_distance_val) * 0.71, -(isometryPlane_distance_val) * (0.088)];
 }
 const point_arr = [];
 for (let i = 1; i < isometryPlane.length; i++) {
@@ -248,7 +248,7 @@ const action_gsap = [];
 
 //血量<
 const healthBar = new PIXI.Container();
-healthBar.position.set( (WIDTH - healthBar.width) / 5.45, (HEIGHT - healthBar.height) / 5.45);
+healthBar.position.set((WIDTH - healthBar.width) / 5.45, (HEIGHT - healthBar.height) / 5.45);
 app.stage.addChild(healthBar);
 let innerBar = new PIXI.Graphics();
 innerBar.beginFill(0x000000);
@@ -261,10 +261,10 @@ outerBar.drawRect(0, 0, health_width_in, 28);
 outerBar.endFill();
 healthBar.addChild(outerBar);
 healthBar.outer = outerBar;
-if(WIDTH < 750 &&  md.mobile() != null){
-    healthBar.width = 220 *  origin_ratio;
+if (WIDTH < 750 && md.mobile() != null) {
+    healthBar.width = 220 * origin_ratio;
     healthBar.height = 12;
-    healthBar.position.set( (WIDTH - healthBar.width) /4.7, (HEIGHT - healthBar.height) / 3.5);
+    healthBar.position.set((WIDTH - healthBar.width) / 4.7, (HEIGHT - healthBar.height) / 3.5);
 }
 
 //>血量
@@ -281,7 +281,7 @@ let keys = [
 
 // 遮擋區塊 -z50
 block_wall = new PIXI.Graphics();
-block_wall.beginFill(0xFFFFFF, 0 );
+block_wall.beginFill(0xFFFFFF, 0);
 block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
 block_wall.endFill();
 app.stage.addChild(block_wall);
@@ -301,7 +301,16 @@ loader
 
 //爆破
 //加入場景
+let sound = null;
+
 function setup() {
+    sound = PIXI.sound.play("loop1", {
+        autoplay: true,
+        loop: true
+    });
+    sound.volume = 1;
+
+    // PIXI.sound.muteAll();
     germs_no = 0;
     germs_alive = []; //細菌活著
     germs_pop = ['5ways', [], [], [], []];
@@ -313,15 +322,15 @@ function setup() {
     show_console('health = 300');
 
     app_w = app.stage.width;
-    app_x = app.stage.x ;
+    app_x = app.stage.x;
     bg_container.interactive = true;
     // var size = new PIXI.Rectangle(16, 32, 16, 16);
     // let bg_texture = new PIXI.Texture(loader.resources["bg_sprite"].texture,size);
-    if(level == 2){
+    if (level == 2) {
         bg_sprite = new Sprite(loader.resources["bg_sprite_u"].texture);
-    }else if(level == 3){
+    } else if (level == 3) {
         bg_sprite = new Sprite(loader.resources["bg_sprite_x"].texture);
-    }else{
+    } else {
         bg_sprite = new Sprite(loader.resources["bg_sprite_s"].texture);
     }
     time_sprite = new Sprite(loader.resources["time_sprite"].texture);
@@ -342,14 +351,14 @@ function setup() {
     bg_sprite.y = 0;
     bg_container.addChild(bg_sprite);
 
-    blood_sprite.width =  blood_sprite.width *  origin_ratio;
-    blood_sprite.height =  blood_sprite.height *  origin_ratio;
+    blood_sprite.width = blood_sprite.width * origin_ratio;
+    blood_sprite.height = blood_sprite.height * origin_ratio;
     blood_sprite.x = 0;
     blood_sprite.y = 0;
     blood_container.addChild(blood_sprite);
 
-    time_sprite.width =  time_sprite.width *  origin_ratio;
-    time_sprite.height =  time_sprite.height *  origin_ratio;
+    time_sprite.width = time_sprite.width * origin_ratio;
+    time_sprite.height = time_sprite.height * origin_ratio;
     time_sprite.x = 0;
     time_sprite.y = 0;
     time_container.addChild(time_sprite);
@@ -366,13 +375,13 @@ function setup() {
     bg_container.x = (WIDTH - bg_container.width) / 2;
     bg_container.y = (HEIGHT - bg_container.height) / 2;
     blood_container.x = (WIDTH - blood_container.width) / 8;
-    blood_container.y =(HEIGHT - blood_container.height) / 8;
+    blood_container.y = (HEIGHT - blood_container.height) / 8;
     time_container.x = (WIDTH - time_container.width) / 1.15;
     time_container.y = (HEIGHT - time_container.height) / 8;
 
-    if(WIDTH < 750 &&  md.mobile() != null){
+    if (WIDTH < 750 && md.mobile() != null) {
         blood_container.x = (WIDTH - blood_container.width) / 8;
-        blood_container.y =(HEIGHT - blood_container.height) / 4.2;
+        blood_container.y = (HEIGHT - blood_container.height) / 4.2;
         time_container.x = (WIDTH - time_container.width) / 1.15;
         time_container.y = (HEIGHT - time_container.height) / 4.2;
 
@@ -388,8 +397,6 @@ function setup() {
         }
     }
 
-    // const sound = PIXI.sound.play("loop1",{autoplay: true,loop: true});
-    // sound.volume = 1;
     // const sound = PIXI.sound.add('loop1',{loop:true});
 
     //執行遊戲
@@ -446,10 +453,28 @@ function gameLoop(delta) {
 }
 
 let run_create_germs = 0;
-let shack = false;
-let shack_color = '0xFFFFFF';
-let shake = 1;
+let is_shake = false;
+let is_shake_color = '0xFFFFFF';
+let shake = true;
+
+const dmg_timer = new EE3Timer.Timer(1000);
+dmg_timer.on('start', function () {
+    // console.log('dmg_timer -start');
+});
+dmg_timer.on('end', elapsed => {
+    if (elapsed === 1000) {
+        block_wall.clear();
+        block_wall.beginFill(0xFFFFFF, 0);
+        block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
+        block_wall.endFill();
+        is_shake = false;
+        // console.log('dmg_timer -end');
+    }
+    dmg_timer.reset(); //Reset the timer
+}, dmg_timer);
+
 function play(delta) {
+
     run_create_germs += delta;
     // console.log(delta);
     if (player_action) {
@@ -458,47 +483,51 @@ function play(delta) {
         }
     }
     removeGerms();
-    if((run_create_germs % damage_speed) < 1 && !shack ){
+    if ((run_create_germs % damage_speed) < 1 && !is_shake) {
         block_wall.clear();
         block_wall.beginFill(0xFFFFFF, 0);
-        block_wall.drawRect(0, 0, WIDTH, HEIGHT * 0.8);
+        block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
         block_wall.endFill();
         shake = false;
         bg_container.interactive = true;
     }
-    if(!shack ){
+    if (!is_shake) {
         bg_container.x = 0;
     }
-    if((run_create_germs % 2) < 1 && shack){
-        if(shake) {
-            bg_container.x =   bg_container.x - 10;
+    if ((run_create_germs % 2) < 1 && is_shake) {
+        PIXI.sound.play("buzzer", {speed: 5});
+        if (shake) {
+            bg_container.x = bg_container.x - 10;
             shake = false;
-        }else{
-            bg_container.x =   bg_container.x + 10;
+        } else {
+            bg_container.x = bg_container.x + 10;
             shake = true;
         }
         block_wall.clear();
-        block_wall.beginFill(shack_color, 0);
-        block_wall.drawRect(0, 0, WIDTH, HEIGHT *2 );
-        // if(shack_color =='0xFF0000'){
-        //     shack_color ='0xFFFFFF'
+        block_wall.beginFill(is_shake_color, 0);
+        block_wall.drawRect(0, 0, WIDTH, HEIGHT * 2);
+        // if(is_shake_color =='0xFF0000'){
+        //     is_shake_color ='0xFFFFFF'
         // }else{
-        //     shack_color ='0xFF0000'
+        //     is_shake_color ='0xFF0000'
         // }
-        if((run_create_germs % 60) < 1 && shack) {
-            // block_wall.clear();
-            // block_wall.beginFill(0xFFFFFF, 0);
-            // block_wall.drawRect(0, 0, WIDTH, HEIGHT * 1);
-            shack = false;
-        }
+
+        dmg_timer.start();
+
+        // if((run_create_germs % 120) < 1 && is_shake) {
+        // block_wall.clear();
+        // block_wall.beginFill(0xFFFFFF, 0);
+        // block_wall.drawRect(0, 0, WIDTH, HEIGHT * 1);
+
+        // }
         block_wall.endFill();
     }
-    console.log(' bg_container.interactive- ' +  bg_container.interactive)
+    // console.log(' bg_container.interactive- ' +  bg_container.interactive);
     bg_container.on('pointerdown', function () {
         // console.log('health_width_in' + health_width_in);
         // console.log('health_width_in' + damage);
         // health_width_in = health_width_in - damage;
-        shack = true;
+        is_shake = true;
         bg_container.interactive = false;
         // if (health_width_in > damage && countdown > 0) {
         //     healthBar.outer.width = health_width_in;
@@ -519,16 +548,19 @@ function play(delta) {
 function add_key_action() {
     for (let k = 1; k < germs_pop.length; k++) {
         keys[k].press = function () {
+
+            is_shake = true;
+            bg_container.interactive = false;
             for (let i = 0; i < germs_pop[k].length; i++) {
-                gsap.to(germs_pop[k][i].children[1], 0.5, {
-                    pixi: {alpha: 0}
-                });
+                // gsap.to(germs_pop[k][i].children[1], 0.5, {
+                //     pixi: {alpha: 0}
+                // });
 
                 let aBox = germs_pop[k][i].getBounds();
                 let bBox = block_wall.getBounds();
 
                 let res = aBox.y + aBox.height > bBox.height;
-                console.log('res1 - ' + res);
+                // console.log('res1 - ' + res);
                 if (res) {
                     animatedSprite = new PIXI.AnimatedSprite(textureArray);
                     animatedSprite.anchor.x = 0.46;
@@ -539,7 +571,7 @@ function add_key_action() {
                     animatedSprite.play();
                     animatedSprite.interactive = false;
                     germs_pop[k][i].addChild(animatedSprite);
-                    PIXI.sound.play("boing", {speed: 5});
+                    PIXI.sound.play("boing", {speed: 1});
                     // germs_pop[k][i].children[1].alpha = 1;
                     gsap.to(germs_pop[k][i].children[1], 2, {
                         pixi: {alpha: 0}
@@ -549,9 +581,8 @@ function add_key_action() {
                     germs_pop[k][i].interactive = false;
                     germs_alive[germs_no] = 0;
                     console.log(germs_alive[germs_no]);
-                }else{
-                    shack = true;
-                    bg_container.interactive = false;
+                    is_shake = false;
+                    bg_container.interactive = true;
                 }
 
             }
@@ -566,9 +597,9 @@ function addInteraction(obj) {
 
 //CLICK方法
 function onClick() {
-    gsap.to(this.children[1], 0.5, {
-        pixi: {alpha: 0}
-    });
+    // gsap.to(this.children[1], 0.5, {
+    //     pixi: {alpha: 0}
+    // });
 
     let aBox = this.getBounds();
     let bBox = block_wall.getBounds();
@@ -585,7 +616,7 @@ function onClick() {
         animatedSprite.play();
         animatedSprite.interactive = false;
         this.addChild(animatedSprite);
-        PIXI.sound.play("boing", {speed: 5});
+        PIXI.sound.play("boing", {speed: 1});
         this.children[1].alpha = 1;
         gsap.to(this.children[1], 2, {
             pixi: {alpha: 0}
@@ -593,14 +624,14 @@ function onClick() {
         this.alpha = 0.8;
         this.interactive = false;
         germs_alive[germs_no] = 0;
-        console.log(germs_alive[germs_no]);
+        // console.log(germs_alive[germs_no]);
 
     }
 }
 
 let _germs_container, _germs;
 let animatedSprite;
-let alienImages = ["images/explode_1.png", "images/explode_2.png", "images/explode_3.png", "images/explode_4.png" ];
+let alienImages = ["images/explode_1.png", "images/explode_2.png", "images/explode_3.png", "images/explode_4.png"];
 let textureArray = [];
 for (let i = 0; i < alienImages.length; i++) {
     let texture = PIXI.Texture.from(alienImages[i]);
@@ -622,15 +653,6 @@ function creatGerms() {
     let get_rand = get5WayArr(level)[getRandomInt(0, 4)];
     let r_i = get_rand[getRandomInt(0, 3)];
     //效果
-
-    // animatedSprite = new PIXI.AnimatedSprite(textureArray);
-    // animatedSprite.anchor.x = 0.46;
-    // animatedSprite.anchor.y = 0.8;
-    // animatedSprite.width = animatedSprite.width * (WIDTH / bg_sprite.width) / 2.5;
-    // animatedSprite.height = animatedSprite.height * (HEIGHT / bg_sprite.height) / 2.5;
-    // animatedSprite.alpha = 0;
-    // animatedSprite.play();
-    // animatedSprite.interactive = false;
 //細菌<
     germs_no++;
     germs_alive[germs_no] = true;
@@ -667,7 +689,7 @@ function creatGerms() {
         motionPath: {
             path: iso_path_array[r_i]
         },
-        ease: "power2.in",
+        ease: "power3.in",
         onComplete: function () {
         },
         onUpdate: function () {
@@ -692,22 +714,23 @@ function removeGerms() {
     for (let i = 0; i < germs_pop.length; i++) {
         for (let j = 0; j < germs_pop[i].length; j++) {
             // console.log(germs_pop[i][j].y +'-'+ (bg_container.height-germs_height));
-            if (germs_pop[i][j].y > (HEIGHT )) {
+            if (germs_pop[i][j].y > (HEIGHT)) {
                 if (germs_alive[germs_no]) {
-                    if (germs_alive[germs_no ] != 0) {
+                    if (germs_alive[germs_no] != 0) {
 
                         health_width_in = health_width_in - damage;
                     }
-                    console.log('germs_alive[germs_no] ' + germs_alive[germs_no - 1]);
-                    if (health_width_in >  damage-1 && countdown > 0) {
+                    // console.log('germs_alive[germs_no] ' + germs_alive[germs_no - 1]);
+                    if (health_width_in > damage - 1 && countdown > 0) {
                         healthBar.outer.width = health_width_in;
                     } else {
                         healthBar.outer.width = 0;
                     }
-                    if(health_width_in >= 0){
+                    if (health_width_in >= 0) {
                         // show_console(health_width_in);
-                        blood_txt.text = Math.ceil(health_width_in/ health_width * 100) ;
-                    }else{
+                        blood_txt.text = Math.ceil(health_width_in / health_width * 100);
+                    } else {
+                        sound.volume = 0;
                         timer.stop();
                         return false;
                     }

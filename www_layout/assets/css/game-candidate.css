@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+.game-candidate{
+	position: relative;
+	width: 100%;
+	float: left;
+	padding: 100px 0 50px 0;
+}
+
+.game-candidate .induction{
+	position: relative;
+	width: 100%;
+}
+
+.game-candidate .induction ul.concertina{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: red;
+}
+
+.game-candidate .induction ul.concertina li{
+	padding-right: 50px;
+
+	background: blue;
+	/*
+	-moz-transform:skewX(-19deg);
+    -webkit-transform:skewX(-19deg);
+    -o-transform:skewX(-19deg);
+    -ms-transform:skewX(-19deg);
+    transform:skewX(-19deg);
+    */
+}
+
+/*小於等於1680*/
+@media (max-width: 1680px) {
+}
+
+/*小於等於1440*/
+@media (max-width: 1440px) {
+}
+/*小於等於1366*/
+@media (max-width: 1366px) {
+}
+
+/*小於等於1280*/
+@media (max-width: 1280px) {
+}
+
+/*小於等於1024*/
+@media (max-width: 1024px) {
+}
+
+/*小於等於960*/
+@media (max-width: 960px) {
+}
+
+/*小於等於768*/
+@media (max-width: 768px) {
+}
+
+@media (max-width: 480px) {
+}
+
+/*小於等於414*/
+@media (max-width: 414px) {
+}
+
+/*小於等於350*/
+@media (max-width: 350px) {
+}

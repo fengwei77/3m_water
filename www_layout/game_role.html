@@ -14,6 +14,8 @@
 		<!-- Style css -->
 		<link href="assets/css/style.css" rel="stylesheet">
 		<link href="assets/css/game.css" rel="stylesheet">
+		<link href="assets/css/game-candidate.css" rel="stylesheet">
+		<link href="assets/css/accordion.css" rel="stylesheet">
 		<!-- owl.carousel Slider Main Style Sheet -->
 		<link href="assets/css/owl.carousel.css" rel="stylesheet" media="all">
 		<link href="assets/css/owl.theme.default.css" rel="stylesheet" media="all">
@@ -42,11 +44,33 @@
 				</nav>
 			</header>
 			<!--header end-->
-			<!--game cut-1 start-->
-			<div class="game-choice refrommiddle">
-				<a href="game_memo.html"><img src="assets/images/game_role.png" class="Imgfull"></a>
+			<!--game candidate start-->
+			<div class="game-candidate" style="">
+				<div class="induction">
+					<!--<img src="assets/images/game-candidate-bg.png" class="Imgfull">-->
+					<img src="assets/images/game_role_new_bg.png" class="Imgfull">
+					<div class="accordion">
+					  <div class="accordion-cell expanded detail-open">
+					    <div class="accordion-cell-content">
+					    	<img src="assets/images/game-candidate-p1.png" class="candidate-pset candidate-p1">
+					    	<a href="game_main.html" class="startBtn">開始遊戲</a>
+					    </div>
+					  </div>
+					  <div class="accordion-cell collapsed">
+					    <div class="accordion-cell-content">
+					    	<img src="assets/images/game-candidate-p2.png" class="candidate-pset candidate-p2">
+					    	<a href="game_main.html" class="startBtn">開始遊戲</a>
+					    </div>
+					  </div>
+					  <div class="accordion-cell collapsed">
+					    <div class="accordion-cell-content">
+					    	<img src="assets/images/game-candidate-p3.png" class="candidate-pset candidate-p3">
+					    	<a href="game_main.html" class="startBtn">開始遊戲</a>
+					    </div>
+					  </div>
+					</div>
+				</div>
 			</div>
-			<!--game cut-1 end-->
 		</div>
 		<!--桌機版 end-->
 		<!--手機版 start-->
@@ -72,7 +96,22 @@
 					<div><a href="game_main.html"><img src="assets/images/game_role_2_m.png" class="Imgfull"></a></div>
 					<div><a href="game_main.html"><img src="assets/images/game_role_3_m.png" class="Imgfull"></a></div>
 				</div>
+				<!--左右鍵 start-->
+				<div class="cut-arrow-left">
+					<a href="javascript:void(0);" class="customPrevBtn"><img src="assets/images/cut-arrow-left-btn.png"></a>
+				</div>
+				<div class="cut-arrow-right">
+					<a href="javascript:void(0);" class="customNextBtn"><img src="assets/images/cut-arrow-right-btn.png"></a>
+				</div>
 			</div>
+			
+			<!--左右鍵 end-->
+
+			<!--
+			<div class="game-choice refrommiddle">
+				<a href="game_main.html"><img src="assets/images/game_role_1_m.png" class="Imgfull"></a>
+			</div>
+			-->
 			<!--game cut-1 end-->
 		</div>
 		<!--手機版 end-->
@@ -101,21 +140,46 @@
 		<script src="assets/js/scrollreveal.min.js"></script>
 		<!-- scrollreveal JS File -->
 		<script src="assets/js/scrollreveal-by-lihsi.js"></script>
+		<!-- scrollreveal JS File -->
+		<script src="assets/js/accordion.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
-			$(".carousel-type1").owlCarousel({
-				items:1,
-			    loop:true,
-			    nav:true,
-			    autoHeight: false,
-    			autoHeightClass: 'owl-height',
-			    autoplay:true,
-			    autoplayTimeout:3000,
-			    navContainerClass : 'owl-nav-customized',
-			    navClass: ['owl-prev-customized','owl-next-customized'],
-			    navText : ["<i class='fa fa-caret-left'></i>","<i class='fa fa-caret-right'></i>"],
+			var owl = $('.carousel-type1');
+			owl.owlCarousel({
+			    items:1,
+			    autoplay: false,
+			    autoplayTimeout: 10000
+			})
+
+			owl.on('changed.owl.carousel', function(event) {
+    			var items = event.item.count;     // Number of items
+    			var item  = event.item.index;
+				if(item==0)
+				{
+					$(".cut-arrow-left").hide();
+				}
+				else
+				{
+					$(".cut-arrow-left").show();
+				}
+
+				if(item==2)
+				{
+					$(".cut-arrow-right").hide();
+				}
+				else
+				{
+					$(".cut-arrow-right").show();
+				}
 			});
-			
+
+			$('.customNextBtn').click(function() {
+			    owl.trigger('next.owl.carousel');
+			})
+			// Go to the previous item
+			$('.customPrevBtn').click(function() {
+			    owl.trigger('prev.owl.carousel');
+			})
 		});
 		</script>
 	</body>

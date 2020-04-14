@@ -1,0 +1,190 @@
+* {
+  box-sizing: border-box;
+}
+
+.accordion {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	float: left;
+	width: 100%;
+	height: 100%;
+
+	overflow: hidden; /* 超過範圍隱藏 */
+	white-space: nowrap;
+}
+
+.accordion-cell {
+	display: inline-block;
+	position: relative;
+	float: left;
+	height: 100%;
+	width: 29%;
+	transition-property: width;
+	transition-duration: 250ms;
+	margin: 0 .5%;
+	
+	-moz-transform: skewX(-19deg);
+	-webkit-transform: skewX(-19deg);
+	-o-transform: skewX(-19deg);
+	-ms-transform: skewX(-19deg);
+	transform: skewX(-19deg);
+	cursor: pointer;
+}
+
+.accordion-cell::before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 87.6%;
+	background: rgba(50, 84, 118, 0.9);
+}
+
+.accordion-cell:hover::before {
+	background: rgba(50, 84, 118, 0);
+}
+
+.accordion-cell.expanded::before {
+	display: none;
+}
+
+.accordion-cell:nth-child(1) {
+	/*
+	background: #00AAC6;
+	background-color:rgba(0, 0, 0, 0.5);
+	*/
+	background-image: url('../images/game-candidate-bg1.png'); 
+    background-repeat: no-repeat; 
+    background-position: top left; 
+    background-size: cover;
+}
+.accordion-cell:nth-child(2) {
+	/*
+	background: #F9A21A;
+	background-color:rgba(0, 0, 0, 0.5);
+	*/
+	background-image: url('../images/game-candidate-bg2.png'); 
+    background-repeat: no-repeat; 
+    background-position: top left; 
+    background-size: cover;
+}
+
+.accordion-cell:nth-child(3) {
+	/*
+	background: #A61D31;
+	background-color:rgba(0, 0, 0, 0.5);
+	*/
+	background-image: url('../images/game-candidate-bg3.png'); 
+    background-repeat: no-repeat; 
+    background-position: top left; 
+    background-size: cover;
+}
+
+.accordion-cell:nth-child(1).detail-open {
+	background-image: url('../images/game-candidate-bg1-open.png'); 
+    background-repeat: no-repeat; 
+    background-position: top left; 
+    background-size: cover;
+}
+.accordion-cell:nth-child(2).detail-open {
+	background-image: url('../images/game-candidate-bg2-open.png'); 
+    background-repeat: no-repeat; 
+    background-position: top left; 
+    background-size: cover;
+}
+
+.accordion-cell:nth-child(3).detail-open {
+	background-image: url('../images/game-candidate-bg3-open.png'); 
+    background-repeat: no-repeat; 
+    background-position: top left; 
+    background-size: cover;
+}
+
+.accordion-cell .accordion-cell-content {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	padding: 0px;
+	opacity: 0;
+	transition-property: opacity;
+	transition-duration: 250ms;
+	
+	-moz-transform: skewX(19deg);
+	-webkit-transform: skewX(19deg);
+	-o-transform: skewX(19deg);
+	-ms-transform: skewX(19deg);
+	transform: skewX(19deg);
+
+	/*background: rgba(0, 0, 0, 0.5);*/
+
+	pointer-events: none;
+}
+
+.accordion-cell .accordion-cell-content img.candidate-p1{
+	position: absolute;
+	bottom: 8%;
+	right: 5%;
+	width: 35%;
+}
+
+.accordion-cell .accordion-cell-content img.candidate-p2{
+	position: absolute;
+	bottom: 0%;
+	right: 8%;
+	width: 40%;
+}
+
+.accordion-cell .accordion-cell-content img.candidate-p3{
+	position: absolute;
+	bottom: 0%;
+	right: -20%;
+	width: 60%;
+}
+
+.accordion-cell .accordion-cell-content a.startBtn{
+	position: absolute;
+	display: inline-block;
+	bottom: 15%;
+	left: 22%;
+	padding: 10px 20px;
+	color: #FFF;
+	font-size: 22px;
+	background: rgba(17, 54, 89, 0.8);
+	text-decoration: none;
+	pointer-events: all;
+}
+
+.accordion-cell .accordion-cell-content a.startBtn:hover{
+	background: rgba(17, 54, 89, 1);
+	text-decoration: none;
+}
+
+.expanded {
+  /*width: calc(100% - ((15% + 20px)*2) - 20px);*/
+  width: 62.5%;
+
+}
+.expanded > .accordion-cell-content {
+	opacity: 1;
+	transition-property: opacity;
+	transition-duration: 250ms;
+}
+
+.collapsed {
+  width: 15%;
+}
+
+/*小於等於1366*/
+@media (max-width: 1366px) {
+	.accordion-cell .accordion-cell-content a.startBtn{
+		padding: 8px 15px;
+		color: #FFF;
+		font-size: 18px;
+
+		bottom: 15%;
+		left: 21%;
+	}
+}

@@ -34,7 +34,7 @@ let countdown = 60;
 let damage_ratio = 0.1;
 let health_width = 220;
 let health_width_in = 220;
-let level = 2;
+let level = _level;
 let germs_height = 80;
 let germs_width = 80;
 let germs_origin_height = 1;
@@ -198,6 +198,8 @@ timer.on('repeat', (elapsed, repeat) => {
     timer_txt.text = countdown;
 });
 timer.on('stop', elapsed => {
+
+    location.href = 'game_result_pass.php?lv=' + _level;
     // show_console('stop');
 });
 timer.start();
@@ -308,9 +310,8 @@ function setup() {
         autoplay: true,
         loop: true
     });
-    sound.volume = 1;
+    // sound.volume = 1;
 
-    // PIXI.sound.muteAll();
     germs_no = 0;
     germs_alive = []; //細菌活著
     germs_pop = ['5ways', [], [], [], []];
@@ -403,7 +404,8 @@ function setup() {
     state = play;
     let ticker = app.ticker.add(delta => gameLoop(delta));
     ticker.autoStart = false;
-    ticker.start();
+    ticker.stop();
+    // ticker.start();
     keyboard(27).press = function () {
         ticker.stop();
         // sound.volume = 0;
@@ -420,24 +422,62 @@ function setup() {
     };
     gameScene.visible = true;
 
-
+    PIXI.sound.togglePauseAll();
+    $('.go_game').click(function(){
+        $('#game_memo').remove();
+        $('#black_mask').hide();
+        ticker.start();
+        PIXI.sound.togglePauseAll();
+    });
 //判斷螢幕裝置方向
 //判斷手機方向：
+
+    let jc = $.dialog({
+        lazyOpen: true,
+        icon: 'fa fa-tablet  faa-wrench animated',
+        theme: 'supervan',
+        closeIcon: false,
+        animation: 'scale',
+        type: 'orange',
+        title: '注意!',
+        content: '請把手機轉至橫向才可開始遊戲!',
+        onContentReady: function(){
+            // this === jc
+            window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+            if (window.orientation === 90 || window.orientation === -90) {
+                $('#black_mask').hide();
+                jc.close();
+                ticker.start();
+                // alert('目前您的螢幕為橫向！');
+            }
+            }, false);
+        }
+    });
     if (window.orientation === 180 || window.orientation === 0) {
+
+        // sound.volume = 0;
         ticker.stop();
-        alert('目前您的螢幕為縱向！');
+        $('#black_mask').show();
+        // jc.open();
     }
     if (window.orientation === 90 || window.orientation === -90) {
+        $('#black_mask').hide();
+        ticker.start();
         // alert('目前您的螢幕為橫向！');
     }
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
         if (window.orientation === 180 || window.orientation === 0) {
+
+            // sound.volume = 0;
             ticker.stop();
-            alert('目前您的螢幕為縱向！');
+            $('#black_mask').show();
+            jc.open();
         }
         if (window.orientation === 90 || window.orientation === -90) {
+            $('#black_mask').hide();
             ticker.start();
-            alert('目前您的螢幕為橫向！');
+            // sound.volume = 60;
+            // alert('目前您的螢幕為橫向！');
         }
     }, false);
 }
@@ -732,6 +772,7 @@ function removeGerms() {
                     } else {
                         sound.volume = 0;
                         timer.stop();
+                        location.href = 'game_result_fail.php?lv=' + _level;
                         return false;
                     }
 

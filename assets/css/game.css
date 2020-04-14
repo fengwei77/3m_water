@@ -103,6 +103,206 @@
 	padding: 100px 0 50px 0;
 }
 
+.game-choice .induction{
+	position: relative;
+	width: 100%;
+}
+
+.game-choice .induction .game-choice-p{
+	position: absolute;
+	width: 33%;
+	height: 100%;
+	/*background: rgba(63, 191, 127, 0.3);*/
+	cursor: pointer;
+
+	-moz-transform:skewX(-19deg);
+    -webkit-transform:skewX(-19deg);
+    -o-transform:skewX(-19deg);
+    -ms-transform:skewX(-19deg);
+    transform:skewX(-19deg);
+}
+
+.game-choice .induction a.game-choice-p.game-choice-p1{
+	width: 33%;
+	top: 0;
+	left: -4.5%;
+}
+
+.game-choice .induction a.game-choice-p.game-choice-p2{
+	width: 33%;
+	top: 0;
+	left: 29.5%;
+}
+
+
+.game-choice .induction a.game-choice-p.game-choice-p3{
+	width: 35%;
+	top: 0;
+	left: 64%;
+}
+
+.game-choice a.startBtn{
+	display: inline-block;
+	position: absolute;
+	padding: 10px 20px;
+	color: #FFF;
+	font-size: 22px;
+	background: rgba(17, 54, 89, 0.8);
+	text-decoration: none;
+}
+
+.game-choice a.startBtn:hover{
+	background: rgba(17, 54, 89, 1);
+	text-decoration: none;
+}
+
+.game-choice a.startBtn.r1{
+	bottom: 16%;
+	left: 15%;
+}
+
+.game-choice a.startBtn.r2{
+	bottom: 16%;
+	left: 31%;
+}
+
+.game-choice a.startBtn.r3{
+	bottom: 16%;
+	left: 45%;
+}
+
+.game-choice .induction a.game-role-p{
+	position: absolute;
+	height: 100%;
+	background: rgba(14, 54, 94, 0.85);
+
+	-moz-transform:skewX(-19deg);
+    -webkit-transform:skewX(-19deg);
+    -o-transform:skewX(-19deg);
+    -ms-transform:skewX(-19deg);
+    transform:skewX(-19deg);
+}
+
+.game-choice .induction a.game-role-p.game-role-p1-2{
+	width: 14.6%;
+	height: 87.6%;
+	top: 0;
+	left: 65.2%;
+}
+
+.game-choice .induction a.game-role-p.game-role-p1-2:hover{
+	background: none;
+}
+
+.game-choice .induction a.game-role-p.game-role-p1-3{
+	width: 14.6%;
+	height: 87.6%;
+	top: 0;
+	left: 80.65%;
+}
+
+.game-choice .induction a.game-role-p.game-role-p1-3:hover{
+	background: none;
+}
+
+.game-choice .induction a.game-role-p.game-role-p2-1{
+	width: 14.6%;
+	height: 87.6%;
+	top: 0;
+	left: 1.42%;
+}
+
+.game-choice .induction a.game-role-p.game-role-p2-1:hover{
+	background: none;
+}
+
+.game-choice .induction a.game-role-p.game-role-p2-3{
+	width: 14.6%;
+	height: 87.6%;
+	top: 0;
+	left: 80.65%;
+}
+
+.game-choice .induction a.game-role-p.game-role-p2-3:hover{
+	background: none;
+}
+
+.game-choice .induction a.game-role-p.game-role-p3-1{
+	width: 14.6%;
+	height: 87.6%;
+	top: 0;
+	left: 1.42%;
+}
+
+.game-choice .induction a.game-role-p.game-role-p3-1:hover{
+	background: none;
+}
+
+.game-choice .induction a.game-role-p.game-role-p3-1:hover{
+	background: none;
+}
+
+.game-choice .induction a.game-role-p.game-role-p3-2{
+	width: 14.6%;
+	height: 87.6%;
+	top: 0;
+	left: 16.65%;
+}
+
+.game-choice .induction a.game-role-p.game-role-p3-2:hover{
+	background: none;
+}
+
+.owl-carousel{
+	z-index: 6 !important;
+}
+/*
+.game-choice .cut-arrow{
+	position: absolute;
+	width: 100%;
+	top: 45%;
+	left: 0;
+	z-index: 5;
+	background: blue;
+}
+*/
+/*
+.cut-arrow-left, .cut-arrow-right{
+	position: absolute;
+	top: 45%;
+	left: 0;
+
+	width: 12%;
+	z-index: -100;
+}
+*/
+
+.cut-arrow-left{
+	display: none;
+	position: absolute;
+	top: 45%;
+	left: 0;
+	width: 12%;
+	z-index: 7;
+}
+
+.cut-arrow-right{
+	position: absolute;
+	top: 45%;
+	right: 0;
+	width: 12%;
+	z-index: 7;
+}
+
+.cut-arrow-left a, .cut-arrow-right a{
+	display: inline-block;
+	width: 100%;
+}
+
+.cut-arrow-left img, .cut-arrow-right img{
+	width: 100%;
+}
+
 .game-main{
 	display: inline-block;
 	position: relative;
@@ -305,6 +505,26 @@
 		margin: 200px auto 0 auto;
 	}
 
+	.game-choice a.startBtn{
+		padding: 10px 20px;
+		font-size: 18px;
+	}
+
+	.game-choice a.startBtn.r1{
+		bottom: 14%;
+		left: 14%;
+	}
+
+	.game-choice a.startBtn.r2{
+		bottom: 14%;
+		left: 30%;
+	}
+
+	.game-choice a.startBtn.r3{
+		bottom: 19%;
+		left: 44%;
+	}
+
 	.game-main img.main-bg{
 		width: 1440px;
 		margin: 0 calc(50% - 720px);
@@ -373,6 +593,7 @@
 }
 /*小於等於1366*/
 @media (max-width: 1366px) {
+
 	.game-main img.main-bg{
 		width: 1366px;
 		margin: 0 calc(50% - 683px);
@@ -448,7 +669,7 @@
 @media (max-width: 1280px) {
 
 	.game-memo{
-		margin: 180px auto 0 auto;
+		margin: 100px auto 0 auto;
 	}
 
 	.game-result img.result-bg{

@@ -4,7 +4,7 @@
 </footer>
 <!--footer end-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="assets/js/jquery-1.12.4.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="assets/js/bootstrap.js"></script>
 <!-- Include owl.carousel.js -->
@@ -23,6 +23,7 @@
 <script src="assets/js/scrollreveal.min.js"></script>
 <!-- scrollreveal JS File -->
 <script src="assets/js/scrollreveal-by-lihsi.js"></script>
+<script src="node_modules/screenfull/dist/screenfull.js"></script>
 
 <script src="node_modules/jquery-confirm/dist/jquery-confirm.min.js"></script>
 <script type="text/javascript">
@@ -35,7 +36,7 @@
         animation: 'scale',
         type: 'orange',
         title: '注意!',
-        content: '網站建議轉向直立為最佳顯示效果!'
+        content: '手機請轉向直立為最佳顯示效果!'
     });
 
     $('#black_mask').hide();
@@ -54,5 +55,15 @@
                 }
             }, false);
         }
+
+        if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
+            /* iOS hides Safari address bar */
+            window.addEventListener("load",function() {
+                setTimeout(function() {
+                    window.scrollTo(0, 1);
+                }, 1000);
+            });
+        }
+
     });
 </script>

@@ -74,9 +74,9 @@
     <!--game cut-1 start-->
     <div class="game-choice">
         <div class="owl-carousel carousel-type1">
-            <div><a href="game_role.php"><img src="assets/images/game_choice_role_1_m.png" class="Imgfull"></a></div>
-            <div><a href="game_role.php"><img src="assets/images/game_choice_role_2_m.png" class="Imgfull"></a></div>
-            <div><a href="game_role.php"><img src="assets/images/game_choice_role_3_m.png" class="Imgfull"></a></div>
+            <div><a href="game_role.php?lv=1"><img src="assets/images/game_choice_role_1_m.png" class="Imgfull"></a></div>
+            <div><a href="game_role.php?lv=2"><img src="assets/images/game_choice_role_2_m.png" class="Imgfull"></a></div>
+            <div><a href="game_role.php?lv=3"><img src="assets/images/game_choice_role_3_m.png" class="Imgfull"></a></div>
         </div>
         <!--左右鍵 start-->
         <div class="cut-arrow-left">
@@ -91,9 +91,6 @@
 </div>
 <!--手機版 end-->
 <!--footer start-->
-<footer>
-    Copyright © 3M台灣 版權所有 ｜3M台灣官網  <a href="https://www.3m.com.tw" target="_blank">https://www.3m.com.tw</a>
-</footer>
 <!--footer end-->
 
 <?php include 'footer.php';?>

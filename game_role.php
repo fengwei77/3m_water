@@ -94,9 +94,9 @@
     <!--game cut-1 start-->
     <div class="game-choice refrommiddle">
         <div class="owl-carousel carousel-type1">
-            <div><a href="game_main.php"><img src="assets/images/game_role_1_m.png" class="Imgfull"></a></div>
-            <div><a href="game_main.php"><img src="assets/images/game_role_2_m.png" class="Imgfull"></a></div>
-            <div><a href="game_main.php"><img src="assets/images/game_role_3_m.png" class="Imgfull"></a></div>
+            <div><a href="game_main.php?lv=1"><img src="assets/images/game_role_1_m.png" class="Imgfull"></a></div>
+            <div><a href="game_main.php?lv=2"><img src="assets/images/game_role_2_m.png" class="Imgfull"></a></div>
+            <div><a href="game_main.php?lv=3"><img src="assets/images/game_role_3_m.png" class="Imgfull"></a></div>
         </div>
         <!--左右鍵 start-->
         <div class="cut-arrow-left">
@@ -120,15 +120,29 @@
 <!--footer start-->
 
 <?php include 'footer.php';?>
+<!-- scrollreveal JS File -->
+<script src="assets/js/accordion.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        let _startPosition = _level-1;
         var owl = $('.carousel-type1');
         owl.owlCarousel({
             items: 1,
+            startPosition: _startPosition,
             autoplay: false,
             autoplayTimeout: 10000
         })
+        if (_startPosition == 0) {
+            $(".cut-arrow-left").hide();
+        } else {
+            $(".cut-arrow-left").show();
+        }
 
+        if (_startPosition == 2) {
+            $(".cut-arrow-right").hide();
+        } else {
+            $(".cut-arrow-right").show();
+        }
         owl.on('changed.owl.carousel', function (event) {
             var items = event.item.count;     // Number of items
             var item = event.item.index;

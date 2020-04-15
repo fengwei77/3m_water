@@ -1,5 +1,6 @@
 const show_debug = true;
 const dev_grid_line = 1;
+const bar1 = new ldBar(".ldBar");
 let logs_ct = '';
 gsap.registerPlugin(gsap, MotionPathPlugin, EaselPlugin, PixiPlugin, TextPlugin, TweenMax, TimelineMax, Power4, Power3, Power2, Power1, Power0);
 var w = window,
@@ -40,28 +41,29 @@ let germs_width = 80;
 let germs_origin_height = 1;
 let germs_origin_fade_in = 0.1;
 let germs_origin_fade_out = 4;
-let block_wall_ratio = 0.88;
+let block_wall_ratio = 0.8;
+let block_wall_op = 0.0;
 console.log('mobile' + md.mobile());
 if (level == 1) {
     germs_speed = 1;
     germs_speed_base = 1;
-    germs_generate_speed = 30;
-}
-if (level == 2) {
-    germs_speed = 0.8;
-    germs_speed_base = 1;
     germs_generate_speed = 40;
-} else if (level == 3) {
-    germs_speed = 0.6;
-    germs_speed_base = 1;
-    germs_generate_speed = 20;
-} else {
+} else if (level == 2) {
     germs_speed = 1;
+    germs_speed_base = 1;
+    germs_generate_speed = 50;
+} else if (level == 3) {
+    germs_speed = 1;
+    germs_speed_base = 1;
+    germs_generate_speed = 50;
+} else {
+    germs_speed = 0.8;
     germs_speed_base = 1;
     germs_generate_speed = 30;
 }
 if (WIDTH < 750 && md.mobile() != null) {
-    block_wall_ratio = 0.88;
+    germs_speed += 0.2;
+    block_wall_ratio = 0.65;
     germs_origin_fade_out = 1.7;
 }
 let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_container, germs_no, germs_alive, time_sprite,
@@ -93,17 +95,8 @@ let player_action = true;
 //遊戲場景
 const manifest = {
     loop1: 'sounds/gs.mp3',
-    loop2: 'sounds/loops/loop2.mp3',
-    loop3: 'sounds/loops/loop3.mp3',
-    loop4: 'sounds/loops/loop4.mp3',
-    bird: 'sounds/bird.mp3',
     boing: 'sounds/clear.mp3',
-    buzzer: 'sounds/mechanical.mp3',
-    car: 'sounds/car.mp3',
-    chime: 'sounds/chime.mp3',
-    success: 'sounds/success.mp3',
-    sword: 'sounds/sword.mp3',
-    whistle: 'sounds/whistle.mp3'
+    buzzer: 'sounds/mechanical.mp3'
 };
 
 let app = new PIXI.Application(opt);
@@ -122,9 +115,6 @@ for (let name in manifest) {
 }
 
 
-// Perform initial resizing
-// resize(app);
-// browser window is resized.
 window.addEventListener("resize", resize(app));
 // setTimeout(function(){
 const vpw = window.innerWidth;  // Width of the viewport
@@ -283,7 +273,7 @@ let keys = [
 
 // 遮擋區塊 -z50
 block_wall = new PIXI.Graphics();
-block_wall.beginFill(0xFFFFFF, 0);
+block_wall.beginFill(0xFFFFFF, block_wall_op);
 block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
 block_wall.endFill();
 app.stage.addChild(block_wall);
@@ -299,13 +289,24 @@ loader
     .add('bg_sprite_s', "images/bg_1600_900_s.png")
     .add('bg_sprite_u', "images/bg_1600_900_u.png")
     .add('bg_sprite_x', "images/bg_1600_900_x.png")
+    .on("progress", loadProgressHandler)
     .load(setup);
+
+function loadProgressHandler(loader, resource) {
+
+    bar1.set((loader.progress | 0));
+    console.log("progress: " + (loader.progress | 0) + "%");
+    if (loader.progress >= 99) {
+        $('#loadingPage').remove();
+    }
+}
 
 //爆破
 //加入場景
 let sound = null;
 
 function setup() {
+
     sound = PIXI.sound.play("loop1", {
         autoplay: true,
         loop: true
@@ -423,11 +424,17 @@ function setup() {
     gameScene.visible = true;
 
     PIXI.sound.togglePauseAll();
-    $('.go_game').click(function(){
+    $('.go_game').click(function () {
+
+        // screenfull.request();
+        if (screenfull.isEnabled && isMobile) {
+            screenfull.request();
+        }
         $('#game_memo').remove();
         $('#black_mask').hide();
         ticker.start();
         PIXI.sound.togglePauseAll();
+
     });
 //判斷螢幕裝置方向
 //判斷手機方向：
@@ -441,30 +448,30 @@ function setup() {
         type: 'orange',
         title: '注意!',
         content: '請把手機轉至橫向才可開始遊戲!',
-        onContentReady: function(){
+        onContentReady: function () {
             // this === jc
             window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
-            if (window.orientation === 90 || window.orientation === -90) {
-                $('#black_mask').hide();
-                jc.close();
-                ticker.start();
-                // alert('目前您的螢幕為橫向！');
-            }
+                if (window.orientation === 90 || window.orientation === -90) {
+                    $('#black_mask').hide();
+                    jc.close();
+                    ticker.start();
+                    // alert('目前您的螢幕為橫向！');
+                }
             }, false);
         }
     });
-    if (window.orientation === 180 || window.orientation === 0) {
-
-        // sound.volume = 0;
-        ticker.stop();
-        $('#black_mask').show();
-        // jc.open();
-    }
-    if (window.orientation === 90 || window.orientation === -90) {
-        $('#black_mask').hide();
-        ticker.start();
-        // alert('目前您的螢幕為橫向！');
-    }
+    // if (window.orientation === 180 || window.orientation === 0) {
+    //
+    //     // sound.volume = 0;
+    //     ticker.stop();
+    //     $('#black_mask').show();
+    //     // jc.open();
+    // }
+    // if (window.orientation === 90 || window.orientation === -90) {
+    //     $('#black_mask').hide();
+    //     ticker.start();
+    //     // alert('目前您的螢幕為橫向！');
+    // }
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
         if (window.orientation === 180 || window.orientation === 0) {
 
@@ -497,14 +504,14 @@ let is_shake = false;
 let is_shake_color = '0xFFFFFF';
 let shake = true;
 
-const dmg_timer = new EE3Timer.Timer(1000);
+const dmg_timer = new EE3Timer.Timer(500);
 dmg_timer.on('start', function () {
     // console.log('dmg_timer -start');
 });
 dmg_timer.on('end', elapsed => {
-    if (elapsed === 1000) {
+    if (elapsed === 500) {
         block_wall.clear();
-        block_wall.beginFill(0xFFFFFF, 0);
+        block_wall.beginFill(0xFFFFFF, block_wall_op);
         block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
         block_wall.endFill();
         is_shake = false;
@@ -525,7 +532,7 @@ function play(delta) {
     removeGerms();
     if ((run_create_germs % damage_speed) < 1 && !is_shake) {
         block_wall.clear();
-        block_wall.beginFill(0xFFFFFF, 0);
+        block_wall.beginFill(0xFFFFFF, block_wall_op);
         block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
         block_wall.endFill();
         shake = false;

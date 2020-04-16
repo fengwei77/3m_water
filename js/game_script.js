@@ -2,6 +2,16 @@ const show_debug = true;
 const dev_grid_line = 1;
 const bar1 = new ldBar(".ldBar");
 let logs_ct = '';
+let end_js = $.dialog({
+    lazyOpen: true,
+    icon: 'fa fa-tablet  faa-wrench animated',
+    theme: 'supervan',
+    closeIcon: false,
+    animation: 'scale',
+    type: 'orange',
+    title: '遊戲結束',
+    content: '請將手機轉回直立後顯示會結果畫面!'
+});
 gsap.registerPlugin(gsap, MotionPathPlugin, EaselPlugin, PixiPlugin, TextPlugin, TweenMax, TimelineMax, Power4, Power3, Power2, Power1, Power0);
 var w = window,
     d = document,
@@ -18,7 +28,7 @@ logs_ct += 'x = ' + y * (16 / 9) + '<br>';
 let HEIGHT = y * 0.96;
 let WIDTH = HEIGHT * (16 / 9);
 $('#gameContainer').css({'height': HEIGHT});
-show_console('origin HEIGHT =' + HEIGHT);
+// show_console('origin HEIGHT =' + HEIGHT);
 // WIDTH = window.innerWidth;
 // HEIGHT = window.innerWidth  * (9/ 16);
 logs_ct += 'WIDTH = ' + WIDTH + '<br>';
@@ -32,7 +42,7 @@ let germs_speed_base = 1;
 let germs_generate_speed = 30;
 let damage_speed = 60;
 let countdown = 60;
-let damage_ratio = 0.1;
+let damage_ratio = 0.5;
 let health_width = 220;
 let health_width_in = 220;
 let level = _level;
@@ -41,29 +51,31 @@ let germs_width = 80;
 let germs_origin_height = 1;
 let germs_origin_fade_in = 0.1;
 let germs_origin_fade_out = 4;
-let block_wall_ratio = 0.8;
-let block_wall_op = 0.0;
+let block_wall_ratio = 0.88;
+let block_wall_op = 0;
 console.log('mobile' + md.mobile());
 if (level == 1) {
     germs_speed = 1;
     germs_speed_base = 1;
     germs_generate_speed = 40;
+    damage_ratio = 0.05;
 } else if (level == 2) {
     germs_speed = 1;
     germs_speed_base = 1;
-    germs_generate_speed = 50;
+    germs_generate_speed = 40;
+    damage_ratio = 0.1;
 } else if (level == 3) {
     germs_speed = 1;
     germs_speed_base = 1;
-    germs_generate_speed = 50;
+    germs_generate_speed = 25;
+    damage_ratio = 0.2;
 } else {
-    germs_speed = 0.8;
+    germs_speed = 1;
     germs_speed_base = 1;
-    germs_generate_speed = 30;
+    germs_generate_speed = 40;
 }
 if (WIDTH < 750 && md.mobile() != null) {
-    germs_speed += 0.2;
-    block_wall_ratio = 0.65;
+    block_wall_ratio = 0.66;
     germs_origin_fade_out = 1.7;
 }
 let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_container, germs_no, germs_alive, time_sprite,
@@ -71,13 +83,13 @@ let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_contai
 let pause_btn, play_btn;
 let app_w, app_x;
 const germs_fade_out_set = 0.2;
-show_console('WIDTH =' + WIDTH);
-show_console('HEIGHT =' + HEIGHT);
+// show_console('WIDTH =' + WIDTH);
+// show_console('HEIGHT =' + HEIGHT);
 let type = "WebGL";
 if (!PIXI.utils.isWebGLSupported()) {
     type = "canvas"
 }
-show_console(type);
+// show_console(type);
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 //遊戲基本設定
 let opt = {
@@ -169,10 +181,10 @@ if (WIDTH < 750 && md.mobile() != null) {
 const timer = new EE3Timer.Timer(1000);
 timer.repeat = countdown;
 timer.on('start', elapsed => {
-    show_console('start');
+    // show_console('start');
 });
 timer.on('end', elapsed => {
-    show_console('end', elapsed);
+    // show_console('end', elapsed);
     timer_txt.text = '0';
     player_action = false;
     for (let i = 0; i < germs_pop.length; i++) {
@@ -188,8 +200,22 @@ timer.on('repeat', (elapsed, repeat) => {
     timer_txt.text = countdown;
 });
 timer.on('stop', elapsed => {
-
+if(md.mobile() == null) {
     location.href = 'game_result_pass.php?lv=' + _level;
+}else{
+    if (window.orientation === 90 || window.orientation === -90) {
+        end_js.open();
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+            if (window.orientation === 0 || window.orientation === 180) {
+                // alert('目前您的螢幕為橫向！');
+                end_js.open();
+                location.href = 'game_result_pass.php?lv=' + _level;
+            }
+        }, false);
+    } else {
+        location.href = 'game_result_pass.php?lv=' + _level;
+    }
+}
     // show_console('stop');
 });
 timer.start();
@@ -223,9 +249,9 @@ app.stage.addChild(isometryPlane[0][1]);
 let isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.023, -(isometryPlane_distance_val) * 1.006, -(isometryPlane_distance_val) * 0.982, -(isometryPlane_distance_val) * 0.959];
 let isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.745, -(isometryPlane_distance_val) * 1.235, -(isometryPlane_distance_val) * 0.76, -(isometryPlane_distance_val) * 0.22];
 if (WIDTH < 750 && md.mobile() != null) {
-    console.log(' md.mobile() ' + md.mobile());
+   // console.log(' md.mobile() ' + md.mobile());
     isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 0.999, -(isometryPlane_distance_val) * 0.976, -(isometryPlane_distance_val) * 0.954];
-    isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.88, -(isometryPlane_distance_val) * 1.266, -(isometryPlane_distance_val) * 0.71, -(isometryPlane_distance_val) * (0.088)];
+    isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.88, -(isometryPlane_distance_val) * 1.266, -(isometryPlane_distance_val) * 0.705, -(isometryPlane_distance_val) * (0.086)];
 }
 const point_arr = [];
 for (let i = 1; i < isometryPlane.length; i++) {
@@ -295,7 +321,7 @@ loader
 function loadProgressHandler(loader, resource) {
 
     bar1.set((loader.progress | 0));
-    console.log("progress: " + (loader.progress | 0) + "%");
+   // console.log("progress: " + (loader.progress | 0) + "%");
     if (loader.progress >= 99) {
         $('#loadingPage').remove();
     }
@@ -430,10 +456,12 @@ function setup() {
         if (screenfull.isEnabled && isMobile) {
             screenfull.request();
         }
-        $('#game_memo').remove();
-        $('#black_mask').hide();
-        ticker.start();
-        PIXI.sound.togglePauseAll();
+        $("#black_mask").fadeOut(500, function () {
+            // Animation complete.
+            $('#game_memo').remove();
+            ticker.start();
+            PIXI.sound.togglePauseAll();
+        });
 
     });
 //判斷螢幕裝置方向
@@ -506,7 +534,7 @@ let shake = true;
 
 const dmg_timer = new EE3Timer.Timer(500);
 dmg_timer.on('start', function () {
-    // console.log('dmg_timer -start');
+    //// console.log('dmg_timer -start');
 });
 dmg_timer.on('end', elapsed => {
     if (elapsed === 500) {
@@ -515,7 +543,7 @@ dmg_timer.on('end', elapsed => {
         block_wall.drawRect(0, 0, WIDTH, HEIGHT * block_wall_ratio);
         block_wall.endFill();
         is_shake = false;
-        // console.log('dmg_timer -end');
+        //// console.log('dmg_timer -end');
     }
     dmg_timer.reset(); //Reset the timer
 }, dmg_timer);
@@ -523,7 +551,7 @@ dmg_timer.on('end', elapsed => {
 function play(delta) {
 
     run_create_germs += delta;
-    // console.log(delta);
+    //// console.log(delta);
     if (player_action) {
         if ((run_create_germs % germs_generate_speed) < 1) {
             creatGerms();
@@ -569,10 +597,10 @@ function play(delta) {
         // }
         block_wall.endFill();
     }
-    // console.log(' bg_container.interactive- ' +  bg_container.interactive);
+    //// console.log(' bg_container.interactive- ' +  bg_container.interactive);
     bg_container.on('pointerdown', function () {
-        // console.log('health_width_in' + health_width_in);
-        // console.log('health_width_in' + damage);
+        //// console.log('health_width_in' + health_width_in);
+        //// console.log('health_width_in' + damage);
         // health_width_in = health_width_in - damage;
         is_shake = true;
         bg_container.interactive = false;
@@ -607,7 +635,7 @@ function add_key_action() {
                 let bBox = block_wall.getBounds();
 
                 let res = aBox.y + aBox.height > bBox.height;
-                // console.log('res1 - ' + res);
+                //// console.log('res1 - ' + res);
                 if (res) {
                     animatedSprite = new PIXI.AnimatedSprite(textureArray);
                     animatedSprite.anchor.x = 0.46;
@@ -627,7 +655,7 @@ function add_key_action() {
                     germs_pop[k][i].alpha = 0.8;
                     germs_pop[k][i].interactive = false;
                     germs_alive[germs_no] = 0;
-                    console.log(germs_alive[germs_no]);
+                   // console.log(germs_alive[germs_no]);
                     is_shake = false;
                     bg_container.interactive = true;
                 }
@@ -652,7 +680,7 @@ function onClick() {
     let bBox = block_wall.getBounds();
 
     let res = aBox.y + aBox.height > bBox.height;
-    console.log('res1 - ' + res);
+   // console.log('res1 - ' + res);
     if (res) {
         animatedSprite = new PIXI.AnimatedSprite(textureArray);
         animatedSprite.anchor.x = 0.46;
@@ -671,7 +699,7 @@ function onClick() {
         this.alpha = 0.8;
         this.interactive = false;
         germs_alive[germs_no] = 0;
-        // console.log(germs_alive[germs_no]);
+        //// console.log(germs_alive[germs_no]);
 
     }
 }
@@ -695,7 +723,7 @@ for (let i = 0; i < alienImages.length; i++) {
 function creatGerms() {
     //set 敵人
     // show_console('creatGerms' + germs_pop.length);
-    // console.log('germs_pop.length' + germs_pop.length);
+    //// console.log('germs_pop.length' + germs_pop.length);
     let all_pop = germs_pop[1].length + germs_pop[2].length + germs_pop[3].length + germs_pop[4].length;
     let get_rand = get5WayArr(level)[getRandomInt(0, 4)];
     let r_i = get_rand[getRandomInt(0, 3)];
@@ -757,7 +785,7 @@ function creatGerms() {
 function removeGerms() {
     // show_console('removeGerms');
     // show_console('HEIGHT - ' + (HEIGHT + germs_origin_height));
-    // console.log(all_obj_container.children.length );
+    //// console.log(all_obj_container.children.length );
     for (let i = 0; i < germs_pop.length; i++) {
         for (let j = 0; j < germs_pop[i].length; j++) {
             // console.log(germs_pop[i][j].y +'-'+ (bg_container.height-germs_height));
@@ -779,7 +807,21 @@ function removeGerms() {
                     } else {
                         sound.volume = 0;
                         timer.stop();
-                        location.href = 'game_result_fail.php?lv=' + _level;
+
+                        if(md.mobile() == null) {
+                            location.href = 'game_result_fail.php?lv=' + _level;
+                        }else{
+                            if (window.orientation === 90 || window.orientation === -90) {
+
+                                window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+                                    if (window.orientation === 0 || window.orientation === 180) {
+                                        location.href = 'game_result_fail.php?lv=' + _level;
+                                    }
+                                }, false);
+                            } else {
+                                location.href = 'game_result_fail.php?lv=' + _level;
+                            }
+                        }
                         return false;
                     }
 

@@ -4,7 +4,10 @@
 </footer>
 <!--footer end-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="assets/js/bootstrap.js"></script>
 <!-- Include owl.carousel.js -->
@@ -35,7 +38,7 @@
         closeIcon: false,
         animation: 'scale',
         type: 'orange',
-        title: '注意!',
+        title: '提示:',
         content: '手機請轉向直立為最佳顯示效果!'
     });
 

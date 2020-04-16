@@ -55,7 +55,7 @@
 									<li>核心濾材升級，過濾效能更提升</li>
 									<li>智能監控升級，多重提醒濾芯更換</li>
 								</ul>
-								<a href="javascript:void(0);" class="more">更多資訊 &gt;&gt;</a>
+                                <a target="_blank" href="https://www.3m.com.tw/3M/zh_TW/company-tw/all-3m-products/~/3M-%E6%A5%B5%E6%B7%A8%E5%80%8D%E6%99%BA%E6%B7%A8%E6%B0%B4%E7%B3%BB%E7%B5%B1-SD390/?N=5002385+3289483827&preselect=3293786499&rt=rud" class="more">更多資訊 &gt;&gt;</a>
 							</div>
 						</div>
 						<div class="item refromleftde">
@@ -66,7 +66,7 @@
 									<li>智能監控升級，多重提醒濾芯更換</li>
 									<li>添加抑菌及抑垢材料，可有效抑菌並緩解水垢生成</li>
 								</ul>
-								<a href="javascript:void(0);" class="more">更多資訊 &gt;&gt;</a>
+                                <a target="_blank" href="https://www.3m.com.tw/3M/zh_TW/company-tw/all-3m-products/~/3M-%E6%A5%B5%E6%B7%A8%E5%80%8D%E6%99%BA%E9%9B%99%E6%95%88%E6%B7%A8%E6%B0%B4%E7%B3%BB%E7%B5%B1-UT-V390/?N=5002385+3289483841&preselect=3293786499&rt=rud" class="more">更多資訊 &gt;&gt;</a>
 							</div>
 						</div>
 						<div class="item refromleftdex">
@@ -77,7 +77,7 @@
 									<li>智能監控升級，多重提醒濾芯更換</li>
 									<li>可調式水質軟化設定，輕鬆定製健康直飲水</li>
 								</ul>
-								<a href="javascript:void(0);" class="more">更多資訊 &gt;&gt;</a>
+                                <a target="_blank" href="https://www.3m.com.tw/3M/zh_TW/company-tw/all-3m-products/~/3M-%E6%A5%B5%E6%B7%A8%E5%80%8D%E6%99%BA%E9%9B%99%E6%95%88%E6%B7%A8%E6%B0%B4%E7%B3%BB%E7%B5%B1-X90-G/?N=5002385+3289483829&preselect=3293786499&rt=rud" class="more">更多資訊 &gt;&gt;</a>
 							</div>
 						</div>
 					</div>
@@ -109,7 +109,7 @@
 									<li>核心濾材升級，過濾效能更提升</li>
 									<li>智能監控升級，多重提醒濾芯更換</li>
 								</ul>
-								<a href="javascript:void(0);" class="more">更多資訊 &gt;&gt;</a>
+                                <a target="_blank" href="https://www.3m.com.tw/3M/zh_TW/company-tw/all-3m-products/~/3M-%E6%A5%B5%E6%B7%A8%E5%80%8D%E6%99%BA%E6%B7%A8%E6%B0%B4%E7%B3%BB%E7%B5%B1-SD390/?N=5002385+3289483827&preselect=3293786499&rt=rud" class="more">更多資訊 &gt;&gt;</a>
 							</div>
 						</div>
 						<div class="item refromleft">
@@ -120,7 +120,7 @@
 									<li>智能監控升級，多重提醒濾芯更換</li>
 									<li>添加抑菌及抑垢材料，可有效抑菌並緩解水垢生成</li>
 								</ul>
-								<a href="javascript:void(0);" class="more">更多資訊 &gt;&gt;</a>
+                                <a target="_blank" href="https://www.3m.com.tw/3M/zh_TW/company-tw/all-3m-products/~/3M-%E6%A5%B5%E6%B7%A8%E5%80%8D%E6%99%BA%E9%9B%99%E6%95%88%E6%B7%A8%E6%B0%B4%E7%B3%BB%E7%B5%B1-UT-V390/?N=5002385+3289483841&preselect=3293786499&rt=rud" class="more">更多資訊 &gt;&gt;</a>
 							</div>
 						</div>
 						<div class="item refromleft">
@@ -131,7 +131,7 @@
 									<li>智能監控升級，多重提醒濾芯更換</li>
 									<li>可調式水質軟化設定，輕鬆定製健康直飲水</li>
 								</ul>
-								<a href="javascript:void(0);" class="more">更多資訊 &gt;&gt;</a>
+                                <a target="_blank" href="https://www.3m.com.tw/3M/zh_TW/company-tw/all-3m-products/~/3M-%E6%A5%B5%E6%B7%A8%E5%80%8D%E6%99%BA%E9%9B%99%E6%95%88%E6%B7%A8%E6%B0%B4%E7%B3%BB%E7%B5%B1-X90-G/?N=5002385+3289483829&preselect=3293786499&rt=rud" class="more">更多資訊 &gt;&gt;</a>
 							</div>
 						</div>
 					</div>

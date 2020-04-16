@@ -103,5 +103,123 @@
 <!--footer end-->
 
 <?php include 'footer.php';?>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+
+<script>
+    $.confirm({
+        title: '填寫個人資料!',
+        content: '' +
+            '<form action="https://3m-xcode.com/data/api/player_data/save" class="formName">' +
+            '<div class="form-group">' +
+            '<label>姓名</label>' +
+            '<input type="text" placeholder="請輸入姓名" class="name form-control"  />' +
+            '<label>電話</label>' +
+            '<input type="text" placeholder="請輸入連絡電話" class="phone form-control"  />' +
+            '<label>e-mail</label>' +
+            '<input type="text" placeholder="請輸入信箱" class="email form-control"  />' +
+            '</div>' +
+            '</form>',
+        buttons: {
+            cancel: {
+                text: '不參加',
+                action: function () {
+                }
+            },
+            formSubmit: {
+                text: '送出資料',
+                btnClass: 'btn-primary',
+                action: function () {
+                    var name = this.$content.find('.name').val();
+                    if(!name){
+                        $.alert('請輸入姓名');
+                        return false;
+                    }
+                    var phone = this.$content.find('.phone').val();
+                    if(!phone){
+                        $.alert('請輸入電話');
+                        return false;
+                    }
+                    var email = this.$content.find('.email').val();
+                    if(!email){
+                        $.alert('請輸入email');
+                        return false;
+                    }
+                    let config = {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        withCredentials: true,
+                    }
+
+                    this.buttons.formSubmit.disable();
+                    this.buttons.cancel.disable();
+                    this.$content.find('.name').attr('disabled','disabled');
+                    this.$content.find('.phone').attr('disabled','disabled');
+                    this.$content.find('.email').attr('disabled','disabled');
+
+                    let fb_id = 'test';
+                    let fb_name = 'test';
+                    let fb_email = 'test';
+                    let formData = new FormData();
+                    formData.append('fb_id', fb_id);
+                    formData.append('fb_name', fb_name);
+                    formData.append('fb_email', fb_email);
+                    formData.append('username', name);
+                    formData.append('phone', phone);
+                    formData.append('email', email);
+
+                    axios.post(
+                        'https://3m-xcode.com/data/api/player_data/save',
+                        formData,
+                        config
+                    ).then(function (response) {
+                        let _message = '';
+
+                        if (response.data.errors != undefined) {
+                            if (response.data.errors.username != undefined) {
+                                _message += response.data.errors.username + '<br>';
+                            }
+                            if (response.data.errors.phone != undefined) {
+                                _message += response.data.errors.phone + '<br>';
+                            }
+                            if (response.data.errors.email != undefined) {
+                                _message += response.data.errors.email + '<br>';
+                            }
+                        }
+                        if (response.data.code == 0) {
+                            _message = '完成登錄';
+                        }
+                        $.confirm({
+                            title: _message,
+                            content: '',
+                            buttons: {
+                                OK: {
+                                    text: '關閉',
+                                    action: function(){
+                                        location.href = 'index.php';
+                                    }
+                                }
+                            }
+                        });
+                    });
+                    return false;
+                }
+            },
+        },
+        onContentReady: function () {
+
+            // bind to events
+            var jc = this;
+            this.$content.find('form').on('submit', function (e) {
+                // if the user submits the form by pressing enter in the field.
+                e.preventDefault();
+                jc.$$formSubmit.trigger('click'); // reference the button and click it
+            });
+        }
+    });
+</script>
 </body>
 </html>

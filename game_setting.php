@@ -19,6 +19,10 @@ if(isset($_GET['lv'])) {
     .jconfirm.jconfirm-supervan .jconfirm-bg {
         background-color: rgb(34, 41, 49);
     }
+    .jconfirm.jconfirm-white .jconfirm-bg, .jconfirm.jconfirm-light .jconfirm-bg {
+        background-color: #444;
+        opacity: .8;
+    }
     .jconfirm-content{
         font-size: 16px;
     }

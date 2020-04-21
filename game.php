@@ -93,5 +93,56 @@
 <!--footer start-->
 
 <?php include 'footer.php';?>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+<script>
+    var has_login = false;
+    function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+        console.log('statusChangeCallback');
+        console.log(response);                   // The current login status of the person.
+        if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+            has_login = true;
+        }else{
+            location.href = 'index.php';
+        }
+    }
+
+
+    function checkLoginState() {               // Called when a person is finished with the Login Button.
+        FB.getLoginStatus(function(response) {   // See the onlogin handler
+            statusChangeCallback(response);
+        });
+    }
+    //FB
+    let fb_name = '';
+    let fb_id = ''
+    let fb_email = '-';
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '2831458826964843',
+            cookie: true,
+            xfbml: true,
+            version: 'v6.0'
+        });
+
+        FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+            statusChangeCallback(response);        // Returns the login status.
+        });
+    };
+    // window.addEventListener("wheel", event => console.info(event.deltaY));
+
+    (function (d, s, id) {                      // Load the SDK asynchronously
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+</script>
 </body>
 </html>

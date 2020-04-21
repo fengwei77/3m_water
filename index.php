@@ -54,8 +54,6 @@ if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
     <link href="node_modules/font-awesome-animation/dist/font-awesome-animation.css" rel="stylesheet">
     <link href="node_modules/jquery-confirm/dist/jquery-confirm.min.css" rel="stylesheet">
 </head>
-<?php include 'game_setting.php';?>
-
 <body>
 <div id="test-width" style="position: absolute; top: 100px; left: 10px; color: rgba(255, 255, 255, 0.5); z-index: 99;"></div>
 <!--桌機版 start-->
@@ -76,7 +74,7 @@ if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
             <img src="assets/images/index_slogan.png" class="Imgfull smoothde">
             <span class="extra refrombottomde">立即刻啟動X密碼，和X 3Men一起對抗日常飲水中的有害物質！</span>
             <div class="gobtn refromtopdex">
-                <a href="game.php" class="hvr-grow"><img src="assets/images/index_start_btn.png" class="Imgfull"></a>
+                <a style="cursor: pointer" id="" class="go_game hvr-grow"><img src="assets/images/index_start_btn.png" class="Imgfull"></a>
             </div>
         </div>
     </section>
@@ -111,7 +109,7 @@ if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
             <img src="assets/images/index_slogan.png" class="Imgfull smoothde">
             <span class="extra refrombottomde">立即刻啟動X密碼，和X 3Men一起對抗日常飲水中的有害物質！</span>
             <div class="gobtn refromtopdex">
-                <a href="game.php" class="hvr-grow"><img src="assets/images/index_start_btn.png" class="Imgfull"></a>
+                <a style="cursor: pointer" id="" class="go_game hvr-grow"><img src="assets/images/index_start_btn.png" class="Imgfull"></a>
             </div>
         </div>
     </section>
@@ -129,5 +127,91 @@ if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
 <!--footer start-->
 
 <?php include 'footer.php';?>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+<script>
+    var has_login = false;
+    function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+        console.log('statusChangeCallback');
+        console.log(response);                   // The current login status of the person.
+        if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+            has_login = true;
+        }
+    }
+
+
+    function checkLoginState() {               // Called when a person is finished with the Login Button.
+        FB.getLoginStatus(function(response) {   // See the onlogin handler
+            statusChangeCallback(response);
+        });
+    }
+    //FB
+    let fb_name = '';
+    let fb_id = ''
+    let fb_email = '-';
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '2831458826964843',
+            cookie: true,
+            xfbml: true,
+            version: 'v6.0'
+        });
+
+        FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+            statusChangeCallback(response);        // Returns the login status.
+        });
+    };
+    // window.addEventListener("wheel", event => console.info(event.deltaY));
+
+    (function (d, s, id) {                      // Load the SDK asynchronously
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    $('.go_game').click(function () {
+        if(has_login){
+
+            location.href="game.php";
+        }
+
+         FB.login(function (response) {
+            if (response.authResponse) {
+                FB.api('/me', function (response) {
+                    if(response.email != undefined){
+                        fb_email = response.email;
+                    }
+                    fb_name = response.name;
+                    fb_id = response.id;
+                    let config = {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        withCredentials: true,
+                    }
+                    let formData = new FormData();
+                    formData.append('fb_id', fb_id);
+                    formData.append('fb_name', fb_name);
+                    formData.append('fb_id', fb_id);
+                    axios.post(
+                        'game_ss.php',
+                        formData,
+                        config
+                    ).then(function (response) {
+                        location.href="game.php";
+                    });
+                });
+            }
+        });
+    });
+
+</script>
+
 </body>
 </html>

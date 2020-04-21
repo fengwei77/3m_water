@@ -29,6 +29,11 @@
     <link href="node_modules/font-awesome-animation/dist/font-awesome-animation.css" rel="stylesheet">
     <link href="node_modules/jquery-confirm/dist/jquery-confirm.min.css" rel="stylesheet">
 </head>
+
+<?php
+$f_time = new DateTime('2020/12/12 00:00:00');
+$_SESSION['g_start'] = $f_time->getTimestamp();
+?>
 <?php include 'game_setting.php';?>
 </head>
 <body>

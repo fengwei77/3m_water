@@ -36,15 +36,20 @@ logs_ct += 'HEIGHT = ' + HEIGHT + '<br>';
 let origin_ratio = WIDTH / 1600;
 logs_ct += 'origin_ratio = ' + origin_ratio + '<br>';
 
+
+
 let isometryPlane_distance_val = WIDTH / 2;
 let germs_speed = 0.8;
 let germs_speed_base = 1;
 let germs_generate_speed = 30;
 let damage_speed = 60;
-let countdown = 60;
+let countdown = 3;
 let damage_ratio = 0.5;
 let health_width = 220;
 let health_width_in = 220;
+if(_level == undefined){
+    _level = $('#_level').val();
+}
 let level = _level;
 let germs_height = 80;
 let germs_width = 80;
@@ -53,6 +58,7 @@ let germs_origin_fade_in = 0.1;
 let germs_origin_fade_out = 4;
 let block_wall_ratio = 0.88;
 let block_wall_op = 0;
+let unmute = true;
 console.log('mobile' + md.mobile());
 if (level == 1) {
     germs_speed = 1;
@@ -164,18 +170,24 @@ blood_txt.position.set((WIDTH - blood_txt.width) / 6.40, (HEIGHT - blood_txt.hei
 //倒數計時<
 let timer_txt = new PIXI.Text(countdown, {
     fontFamily: '\'Noto Sans TC\', sans-serif',
-    fontSize: 55,
+    fontSize: 50,
     fill: 0xED0000,
     align: 'center'
 });
 timer_txt.anchor.set(0.5);
 app.stage.addChild(timer_txt);
-timer_txt.position.set((WIDTH - timer_txt.width) / 1.123, (HEIGHT - timer_txt.height) / 4.7);
+timer_txt.position.set((WIDTH - timer_txt.width) / 1.124, (HEIGHT - timer_txt.height) / 4.7);
+if (WIDTH < 1280 && md.mobile() != null) {
+    blood_txt.style.fontSize = 20;
+    blood_txt.position.set((WIDTH - blood_txt.width) / 6.4, (HEIGHT - blood_txt.height) / 3.22);
+    timer_txt.style.fontSize = 20;
+    timer_txt.position.set((WIDTH - timer_txt.width) / 1.114, (HEIGHT - timer_txt.height) / 3.22);
+}
 if (WIDTH < 750 && md.mobile() != null) {
     blood_txt.style.fontSize = 20;
     blood_txt.position.set((WIDTH - blood_txt.width) / 6.4, (HEIGHT - blood_txt.height) / 3.22);
     timer_txt.style.fontSize = 20;
-    timer_txt.position.set((WIDTH - timer_txt.width) / 1.122, (HEIGHT - timer_txt.height) / 3.22);
+    timer_txt.position.set((WIDTH - timer_txt.width) / 1.124, (HEIGHT - timer_txt.height) / 3.22);
 }
 
 const timer = new EE3Timer.Timer(1000);
@@ -187,12 +199,37 @@ timer.on('end', elapsed => {
     // show_console('end', elapsed);
     timer_txt.text = '0';
     player_action = false;
+
+
     for (let i = 0; i < germs_pop.length; i++) {
         if (germs_pop[i].alpha > 0) {
             germs_pop[i].alpha = .5
             all_obj_container.destroy();
         }
     }
+    $('#end_text').html('恭喜過關!');
+    $('#end_mask').fadeIn();
+
+    setTimeout(function () {
+        if (md.mobile() == null) {
+            location.href = 'game_result_pass.php?lv=' + _level;
+        } else {
+            if (window.orientation === 90 || window.orientation === -90) {
+                end_js.open();
+                window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+                    if (window.orientation === 0 || window.orientation === 180) {
+                        // alert('目前您的螢幕為橫向！');
+                        resize(app);
+                        end_js.open();
+                        location.href = 'game_result_pass.php?lv=' + _level;
+                    }
+                }, false);
+            } else {
+                location.href = 'game_result_pass.php?lv=' + _level;
+            }
+        }
+
+    }, 2500);
 });
 timer.on('repeat', (elapsed, repeat) => {
     // show_console('repeat', repeat);
@@ -200,22 +237,6 @@ timer.on('repeat', (elapsed, repeat) => {
     timer_txt.text = countdown;
 });
 timer.on('stop', elapsed => {
-if(md.mobile() == null) {
-    location.href = 'game_result_pass.php?lv=' + _level;
-}else{
-    if (window.orientation === 90 || window.orientation === -90) {
-        end_js.open();
-        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
-            if (window.orientation === 0 || window.orientation === 180) {
-                // alert('目前您的螢幕為橫向！');
-                end_js.open();
-                location.href = 'game_result_pass.php?lv=' + _level;
-            }
-        }, false);
-    } else {
-        location.href = 'game_result_pass.php?lv=' + _level;
-    }
-}
     // show_console('stop');
 });
 timer.start();
@@ -249,7 +270,7 @@ app.stage.addChild(isometryPlane[0][1]);
 let isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.023, -(isometryPlane_distance_val) * 1.006, -(isometryPlane_distance_val) * 0.982, -(isometryPlane_distance_val) * 0.959];
 let isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.745, -(isometryPlane_distance_val) * 1.235, -(isometryPlane_distance_val) * 0.76, -(isometryPlane_distance_val) * 0.22];
 if (WIDTH < 750 && md.mobile() != null) {
-   // console.log(' md.mobile() ' + md.mobile());
+    // console.log(' md.mobile() ' + md.mobile());
     isometryPlane_distance = [0, -(isometryPlane_distance_val) * 1.025, -(isometryPlane_distance_val) * 0.999, -(isometryPlane_distance_val) * 0.976, -(isometryPlane_distance_val) * 0.954];
     isometryPlane_distance_to = [0, -(isometryPlane_distance_val) * 1.88, -(isometryPlane_distance_val) * 1.266, -(isometryPlane_distance_val) * 0.705, -(isometryPlane_distance_val) * (0.086)];
 }
@@ -321,7 +342,7 @@ loader
 function loadProgressHandler(loader, resource) {
 
     bar1.set((loader.progress | 0));
-   // console.log("progress: " + (loader.progress | 0) + "%");
+    // console.log("progress: " + (loader.progress | 0) + "%");
     if (loader.progress >= 99) {
         $('#loadingPage').remove();
     }
@@ -334,6 +355,7 @@ let sound = null;
 function setup() {
 
     sound = PIXI.sound.play("loop1", {
+        sound: 30,
         autoplay: true,
         loop: true
     });
@@ -480,6 +502,7 @@ function setup() {
             // this === jc
             window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
                 if (window.orientation === 90 || window.orientation === -90) {
+                    resize(app);
                     $('#black_mask').hide();
                     jc.close();
                     ticker.start();
@@ -502,19 +525,35 @@ function setup() {
     // }
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
         if (window.orientation === 180 || window.orientation === 0) {
-
             // sound.volume = 0;
+            resize(app);
             ticker.stop();
             $('#black_mask').show();
             jc.open();
         }
         if (window.orientation === 90 || window.orientation === -90) {
+            resize(app);
             $('#black_mask').hide();
             ticker.start();
+
             // sound.volume = 60;
             // alert('目前您的螢幕為橫向！');
         }
     }, false);
+
+    //靜音
+    $('#sound').click(function () {
+        sound.volume = 0;
+        $('#sound').hide();
+        $('#mute').show();
+        unmute = false;
+    });
+    $('#mute').click(function () {
+        sound.volume = 30;
+        $('#mute').hide();
+        $('#sound').show();
+        unmute = true;
+    });
 }
 
 let is_run = true;
@@ -570,7 +609,9 @@ function play(delta) {
         bg_container.x = 0;
     }
     if ((run_create_germs % 2) < 1 && is_shake) {
-        PIXI.sound.play("buzzer", {speed: 5});
+        if(unmute) {
+            PIXI.sound.play("buzzer", {volume:50,speed: 5});
+        }
         if (shake) {
             bg_container.x = bg_container.x - 10;
             shake = false;
@@ -646,7 +687,9 @@ function add_key_action() {
                     animatedSprite.play();
                     animatedSprite.interactive = false;
                     germs_pop[k][i].addChild(animatedSprite);
-                    PIXI.sound.play("boing", {speed: 1});
+                    if(unmute) {
+                        PIXI.sound.play("boing", {volume:50,speed: 1});
+                    }
                     // germs_pop[k][i].children[1].alpha = 1;
                     gsap.to(germs_pop[k][i].children[1], 2, {
                         pixi: {alpha: 0}
@@ -655,7 +698,7 @@ function add_key_action() {
                     germs_pop[k][i].alpha = 0.8;
                     germs_pop[k][i].interactive = false;
                     germs_alive[germs_no] = 0;
-                   // console.log(germs_alive[germs_no]);
+                    // console.log(germs_alive[germs_no]);
                     is_shake = false;
                     bg_container.interactive = true;
                 }
@@ -680,7 +723,7 @@ function onClick() {
     let bBox = block_wall.getBounds();
 
     let res = aBox.y + aBox.height > bBox.height;
-   // console.log('res1 - ' + res);
+    // console.log('res1 - ' + res);
     if (res) {
         animatedSprite = new PIXI.AnimatedSprite(textureArray);
         animatedSprite.anchor.x = 0.46;
@@ -691,7 +734,9 @@ function onClick() {
         animatedSprite.play();
         animatedSprite.interactive = false;
         this.addChild(animatedSprite);
-        PIXI.sound.play("boing", {speed: 1});
+        if(unmute) {
+            PIXI.sound.play("boing", {volume:50,speed: 1});
+        }
         this.children[1].alpha = 1;
         gsap.to(this.children[1], 2, {
             pixi: {alpha: 0}
@@ -808,20 +853,29 @@ function removeGerms() {
                         sound.volume = 0;
                         timer.stop();
 
-                        if(md.mobile() == null) {
-                            location.href = 'game_result_fail.php?lv=' + _level;
-                        }else{
-                            if (window.orientation === 90 || window.orientation === -90) {
+                        $('#end_mask').fadeIn();
 
-                                window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
-                                    if (window.orientation === 0 || window.orientation === 180) {
-                                        location.href = 'game_result_fail.php?lv=' + _level;
-                                    }
-                                }, false);
-                            } else {
+                        setTimeout(function () {
+                            if (md.mobile() == null) {
                                 location.href = 'game_result_fail.php?lv=' + _level;
+                            } else {
+                                if (window.orientation === 90 || window.orientation === -90) {
+                                    end_js.open();
+                                    window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function () {
+                                        if (window.orientation === 0 || window.orientation === 180) {
+                                            // alert('目前您的螢幕為橫向！');
+                                            resize(app);
+                                            end_js.open();
+                                            location.href = 'game_result_fail.php?lv=' + _level;
+                                        }
+                                    }, false);
+                                } else {
+                                    location.href = 'game_result_fail.php?lv=' + _level;
+                                }
                             }
-                        }
+
+                        }, 1500);
+
                         return false;
                     }
 

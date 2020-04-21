@@ -2,15 +2,21 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
     if(!isset( $_SESSION['game_level'])) {
-        $_SESSION['game_level'] = 3;
+        $_SESSION['game_level'] = 1;
     }
 }
-
+if (isset($_SESSION['ss_fb_id']) &&   $_SESSION['ss_fb_id'] != '') {
+//    echo   $_SESSION['ss_fb_id'];
+} else {
+//   echo 'go index';
+    header('Location: index.php');
+    exit;
+}
 if(isset($_GET['lv'])) {
     $_SESSION['game_level'] = $_GET['lv'];
 //echo $_SESSION['game_level'];
 }
-
+//echo $_SESSION['game_level'];
 ?>
 
 

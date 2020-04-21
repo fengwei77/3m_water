@@ -29,7 +29,6 @@
         <link href="node_modules/font-awesome-animation/dist/font-awesome-animation.css" rel="stylesheet">
         <link href="node_modules/jquery-confirm/dist/jquery-confirm.min.css" rel="stylesheet">
 	</head>
-    <?php include 'game_setting.php';?>
 
     <body>
 		<div id="test-width" style="position: absolute; top: 100px; left: 10px; color: rgba(255, 255, 255, 0.5); z-index: 99;"></div>

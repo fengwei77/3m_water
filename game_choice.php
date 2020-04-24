@@ -32,6 +32,7 @@
 <?php include 'game_setting.php';?>
 <body>
 <div id="test-width" style="position: absolute; top: 100px; left: 10px; color: rgba(255, 255, 255, 0.5); z-index: 99;"></div>
+
 <!--桌機版 start-->
 <div class="wrap fullheight globalbg lihsi-desktop">
     <!--header start-->
@@ -46,6 +47,14 @@
     <!--header end-->
     <!--game cut-1 start-->
     <div class="game-choice refrommiddle">
+        <div class="game-pop foo">
+            <div class="close-btn">
+                <!--<a href="javascript:void(0);" onclick="closeMask('game-mask','');"><img src="assets/images/game_pop_close.png"></a>-->
+                <a href="game_choice.php"><img src="assets/images/game_pop_close.png"></a>
+            </div>
+            <div class="detail">立即選擇最適合你的<span class="highlight">X 3MEN</span>一起啟動X密碼吧！</div>
+        </div>
+
         <div class="induction">
             <!--<a href="game_role.php"><img src="assets/images/game_choice.png" class="Imgfull"></a>-->
             <img src="assets/images/game_choice.png" class="Imgfull">
@@ -72,6 +81,15 @@
     </header>
     <!--header end-->
     <!--game cut-1 start-->
+    <div class="game-mask refrommiddle">
+        <div class="game-pop foo">
+            <div class="close-btn">
+                <!--<a href="javascript:void(0);" onclick="closeMask('game-mask','');"><img src="assets/images/game_pop_close.png"></a>-->
+                <a href="game_choice.php"><img src="assets/images/game_pop_close.png"></a>
+            </div>
+            <div class="detail">立即選擇最適合你的<span class="highlight">X 3MEN</span><br class="lihsi-mobile">一起啟動X密碼吧！</div>
+        </div>
+    </div>
     <div class="game-choice">
         <div class="owl-carousel carousel-type1">
             <div><a href="game_role.php?lv=1"><img src="assets/images/game_choice_role_1_m.png" class="Imgfull"></a></div>
@@ -94,8 +112,17 @@
 <!--footer end-->
 
 <?php include 'footer.php';?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+
+        var sound = new Pizzicato.Sound({
+            source: 'file',
+            options: { path: 'sounds/select.mp3', volume: 0.8  }
+        }, function() {
+            console.log('sound file loaded!');
+        });
+
         var owl = $('.carousel-type1');
         owl.owlCarousel({
             items:1,
@@ -126,10 +153,12 @@
         });
 
         $('.customNextBtn').click(function() {
+            sound.play();
             owl.trigger('next.owl.carousel');
         })
         // Go to the previous item
         $('.customPrevBtn').click(function() {
+            sound.play();
             owl.trigger('prev.owl.carousel');
         })
 

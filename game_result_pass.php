@@ -49,15 +49,15 @@ if (isset($_SESSION['g_start'])) {
     $time_check = $now - $_SESSION['g_start'];
     $_SESSION['g_start'] = $f_time->getTimestamp();
 //    echo $time_check;
-    if ($time_check < 1) {
+    if ($time_check < 19) {
         $_SESSION['g_start'] = $f_time->getTimestamp();
-//        header("Location: game.php");
-//        die();
+        header("Location: game.php");
+        die();
     }
 } else {
     $_SESSION['g_start'] = $f_time->getTimestamp();
-//    header("Location: game.php");
-//    die();
+    header("Location: game.php");
+    die();
 }
 //echo $time_check;
 ?>
@@ -101,10 +101,11 @@ if (isset($_SESSION['g_start'])) {
         <div class="game-result-product"><img src="assets/images/game_result_product_1.png" class="Imgfull"></div>
         <div class="game-result-emotion"><img src="assets/images/game_result_emotion_1.png" class="Imgfull"></div>
         <div class="game-result-detail">
-            所有雜質細菌重金屬一網打盡之際，內行人才懂的水質口感，就是必勝關鍵！<br>軟化過後的水質，讓美食或是咖啡更加升級～
+            不管是運動後或生病中，總是說要「多喝水」，但你喝的都是純淨無污染的好水嗎？<br>
+            真正沒有重金屬或細菌污染的水，才是對人體最健康的喔！
             <div class="game-result-extra">
                 <a class="feed_btn">分享X密碼</a>
-                <a href="game.php">成為S MEN<br>挑戰下一關</a>
+                <a href="game.php?c=1">成為S MEN<br>挑戰下一關</a>
             </div>
             <div class="game-result-share">
                 臉書分享結果頁，好禮等你抽
@@ -120,10 +121,12 @@ if (isset($_SESSION['g_start'])) {
         <div class="game-result-product"><img src="assets/images/game_result_product_2.png" class="Imgfull"></div>
         <div class="game-result-emotion"><img src="assets/images/game_result_emotion_1.png" class="Imgfull"></div>
         <div class="game-result-detail">
-            所有雜質細菌重金屬一網打盡，內行人才懂的水質口感，就是必勝關鍵！<br>軟化過後的水質，讓美食或是咖啡更加升級～
+            你一天當中會喝下多少水呢？不管是單純喝水，或是沖泡飲品，甚至是清洗蔬果，<br>
+            你會喝下的水，肯定比你想得多更多！不只除水中壞菌，<br>
+            防止水垢、抑制機體細菌更是看不見的魔鬼細節！
             <div class="game-result-extra">
                 <a class="feed_btn">分享X密碼</a>
-                <a href="game.php">成為S MEN<br>挑戰下一關</a>
+                <a href="game.php?c=1">成為U MEN<br>挑戰下一關</a>
             </div>
             <div class="game-result-share">
                 臉書分享結果頁，好禮等你抽
@@ -139,10 +142,11 @@ if (isset($_SESSION['g_start'])) {
         <div class="game-result-product"><img src="assets/images/game_result_product_3.png" class="Imgfull"></div>
         <div class="game-result-emotion"><img src="assets/images/game_result_emotion_1.png" class="Imgfull"></div>
         <div class="game-result-detail">
-            所有雜質細菌重金屬一網打盡，內行人才懂的水質口感，就是必勝關鍵！<br>軟化過後的水質，讓美食或是咖啡更加升級～
+            所有雜質細菌重金屬一網打盡之際，內行人才懂的水質口感，就是必勝關鍵！<br>
+            軟化過後的水質，讓美食或是咖啡更加升級～
             <div class="game-result-extra">
                 <a class="feed_btn">分享X密碼</a>
-                <a href="game.php">成為S MEN<br>挑戰下一關</a>
+                <a href="game.php?c=1">成為X MEN<br>挑戰下一關</a>
             </div>
             <div class="game-result-share">
                 臉書分享結果頁，好禮等你抽
@@ -171,10 +175,11 @@ if (isset($_SESSION['g_start'])) {
     <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '1' ? '' : 'none' ?>">
         <img src="assets/images/game_result_bg_pass_1_m.png" class="Imgfull">
         <div class="game-result-detail">
-            所有雜質細菌重金屬一網打盡之際，內行人才懂的水質口感，就是必勝關鍵！<br>軟化過後的水質，讓美食或是咖啡更加升級～
+            不管是運動後或生病中，總是說要「多喝水」，但你喝的都是純淨無污染的好水嗎？<br>
+            真正沒有重金屬或細菌污染的水，才是對人體最健康的喔！
             <div class="game-result-extra">
                 <a class="feed_btn">分享X密碼</a>
-                <a href="game.php">成為S MEN<br>挑戰下一關</a>
+                <a href="game.php?c=1">成為S MEN<br>挑戰下一關</a>
             </div>
             <div class="game-result-share">
                 臉書分享結果頁，好禮等你抽
@@ -187,10 +192,12 @@ if (isset($_SESSION['g_start'])) {
     <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '2' ? '' : 'none' ?>">
         <img src="assets/images/game_result_bg_pass_2_m.png" class="Imgfull">
         <div class="game-result-detail">
-            所有雜質細菌重金屬一網打盡之際，內行人才懂的水質口感，就是必勝關鍵！<br>軟化過後的水質，讓美食或是咖啡更加升級～
+            你一天當中會喝下多少水呢？不管是單純喝水，或是沖泡飲品，甚至是清洗蔬果，<br>
+            你會喝下的水，肯定比你想得多更多！不只除水中壞菌，<br>
+            防止水垢、抑制機體細菌更是看不見的魔鬼細節！
             <div class="game-result-extra">
                 <a class="feed_btn">分享X密碼</a>
-                <a href="game.php">成為S MEN<br>挑戰下一關</a>
+                <a href="game.php?c=1">成為U MEN<br>挑戰下一關</a>
             </div>
             <div class="game-result-share">
                 臉書分享結果頁，好禮等你抽
@@ -203,10 +210,11 @@ if (isset($_SESSION['g_start'])) {
     <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '3' ? '' : 'none' ?>">
         <img src="assets/images/game_result_bg_pass_3_m.png" class="Imgfull">
         <div class="game-result-detail">
-            所有雜質細菌重金屬一網打盡之際，內行人才懂的水質口感，就是必勝關鍵！<br>軟化過後的水質，讓美食或是咖啡更加升級～
+            所有雜質細菌重金屬一網打盡之際，內行人才懂的水質口感，就是必勝關鍵！<br>
+            軟化過後的水質，讓美食或是咖啡更加升級～
             <div class="game-result-extra">
                 <a class="feed_btn">分享X密碼</a>
-                <a href="game.php">成為S MEN<br>挑戰下一關</a>
+                <a href="game.php?c=1">成為X MEN<br>挑戰下一關</a>
             </div>
             <div class="game-result-share">
                 臉書分享結果頁，好禮等你抽
@@ -335,9 +343,11 @@ if (!isset($_SESSION['ss_fb_id'])) {
 
     function feed() {
         console.log('fb feed');
+        $('.fb_mask').hide();
         FB.getLoginStatus(function (response) {   // See the onlogin handler
             if (response.status === 'connected') {   // Logged into your webpage and Facebook.
                 if (has_update) {
+                    $('.fb_mask').show();
                     FB.ui({
                         method: 'share',
                         href: fb_link
@@ -345,6 +355,7 @@ if (!isset($_SESSION['ss_fb_id'])) {
                         $('.fb_mask').hide();
                     });
                 } else {
+                    $('.fb_mask').show();
                     FB.api('/me', function (response) {
                         console.log('Good to see you, ' + response.name + '.');
                         fb_name = response.name;
@@ -463,8 +474,9 @@ if (!isset($_SESSION['ss_fb_id'])) {
                     // }
                 }
             } else {
+                $('.fb_mask').hide();
                 FB.login(function (response) {
-                    $('.fb_mask').hide();
+                    $('.fb_mask').show();
                     if (response.authResponse) {
                         console.log('Welcome!  Fetching your information.... ');
                         FB.api('/me', function (response) {

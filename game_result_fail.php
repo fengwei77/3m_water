@@ -31,8 +31,32 @@
 </head>
 
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+    if (!isset($_SESSION['game_level'])) {
+        $_SESSION['game_level'] = 1;
+    }
+}
+
+$time_check = 0;
+$date = new DateTime();
+$now = $date->getTimestamp();
 $f_time = new DateTime('2020/12/12 00:00:00');
-$_SESSION['g_start'] = $f_time->getTimestamp();
+if (isset($_SESSION['g_start'])) {
+    $time_check = $now - $_SESSION['g_start'];
+    $_SESSION['g_start'] = $f_time->getTimestamp();
+//    echo $time_check;
+    if ($time_check < 1) {
+        $_SESSION['g_start'] = $f_time->getTimestamp();
+//        header("Location: game.php");
+//        die();
+    }
+} else {
+    $_SESSION['g_start'] = $f_time->getTimestamp();
+//    header("Location: game.php");
+//    die();
+}
+//echo $time_check;
 ?>
 <?php include 'game_setting.php';?>
 </head>
@@ -51,10 +75,40 @@ $_SESSION['g_start'] = $f_time->getTimestamp();
     </header>
     <!--header end-->
     <!--game result start-->
-    <div class="game-result">
+    <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '1' ? '' : 'none' ?>">
         <img src="assets/images/game_result_bg.png" class="result-bg">
         <div class="game-result-people"><img src="assets/images/game_result_people_1.png" class="Imgfull"></div>
         <div class="game-result-product"><img src="assets/images/game_result_product_1.png" class="Imgfull"></div>
+        <div class="game-result-emotion"><img src="assets/images/game_result_emotion_2.png" class="Imgfull"></div>
+        <div class="game-result-detail fail">
+            失敗了沒關係，有S Men挺你，再挑戰一次！
+            <div class="game-result-extra">
+                <a href="game.php">重新挑戰</a>
+            </div>
+            <div class="game-result-share">
+                和X 3Men一起重新挑戰一次吧！
+            </div>
+        </div>
+    </div>
+    <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '2' ? '' : 'none' ?>">
+        <img src="assets/images/game_result_bg.png" class="result-bg">
+        <div class="game-result-people"><img src="assets/images/game_result_people_2.png" class="Imgfull"></div>
+        <div class="game-result-product"><img src="assets/images/game_result_product_2.png" class="Imgfull"></div>
+        <div class="game-result-emotion"><img src="assets/images/game_result_emotion_2.png" class="Imgfull"></div>
+        <div class="game-result-detail fail">
+            失敗了沒關係，有U Men挺你，再挑戰一次！
+            <div class="game-result-extra">
+                <a href="game.php">重新挑戰</a>
+            </div>
+            <div class="game-result-share">
+                和X 3Men一起重新挑戰一次吧！
+            </div>
+        </div>
+    </div>
+    <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '3' ? '' : 'none' ?>">
+        <img src="assets/images/game_result_bg.png" class="result-bg">
+        <div class="game-result-people"><img src="assets/images/game_result_people_3.png" class="Imgfull"></div>
+        <div class="game-result-product"><img src="assets/images/game_result_product_3.png" class="Imgfull"></div>
         <div class="game-result-emotion"><img src="assets/images/game_result_emotion_2.png" class="Imgfull"></div>
         <div class="game-result-detail fail">
             失敗了沒關係，有X Men挺你，再挑戰一次！
@@ -83,8 +137,36 @@ $_SESSION['g_start'] = $f_time->getTimestamp();
     </header>
     <!--header end-->
     <!--game result start-->
-    <div class="game-result">
+    <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '1' ? '' : 'none' ?>">
         <img src="assets/images/game_result_bg_fail_1_m.png" class="Imgfull">
+        <div class="game-result-detail fail">
+            失敗了沒關係，有S Men挺你，再挑戰一次！
+            <div class="game-result-extra">
+                <a href="game.php">重新挑戰</a>
+            </div>
+            <div class="game-result-share">
+                和X 3Men一起重新挑戰一次吧！
+            </div>
+        </div>
+    </div>
+    <!--game result end-->
+    <!--game result start-->
+    <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '2' ? '' : 'none' ?>">
+        <img src="assets/images/game_result_bg_fail_2_m.png" class="Imgfull">
+        <div class="game-result-detail fail">
+            失敗了沒關係，有U Men挺你，再挑戰一次！
+            <div class="game-result-extra">
+                <a href="game.php">重新挑戰</a>
+            </div>
+            <div class="game-result-share">
+                和X 3Men一起重新挑戰一次吧！
+            </div>
+        </div>
+    </div>
+    <!--game result end-->
+    <!--game result start-->
+    <div class="game-result" style="display: <?php echo $_SESSION['game_level'] == '3' ? '' : 'none' ?>">
+        <img src="assets/images/game_result_bg_fail_3_m.png" class="Imgfull">
         <div class="game-result-detail fail">
             失敗了沒關係，有X Men挺你，再挑戰一次！
             <div class="game-result-extra">

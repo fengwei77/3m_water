@@ -32,7 +32,15 @@
     <link href="node_modules/jquery-confirm/dist/jquery-confirm.min.css" rel="stylesheet">
 </head>
 <?php include 'game_setting.php';?>
-
+<style>
+    .accordion-cell::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 87.8%;
+        background: rgba(50, 84, 118, 0.9);
+    }
+</style>
 <body>
 <div id="test-width"
      style="position: absolute; top: 100px; left: 10px; color: rgba(255, 255, 255, 0.5); z-index: 99;"></div>
@@ -57,19 +65,19 @@
                 <div class="accordion-cell  <?php echo $_SESSION['game_level']  == 1 ? 'expanded detail-open' : 'collapsed' ?>">
                     <div class="accordion-cell-content">
                         <img src="assets/images/game-candidate-p1.png" class="candidate-pset candidate-p1">
-                        <a href="game_main.php?lv=1" class="startBtn">開始遊戲</a>
+                        <a url="game_main.php?lv=1" class="startBtn">開始遊戲</a>
                     </div>
                 </div>
                 <div class="accordion-cell  <?php echo $_SESSION['game_level']  == 2 ? 'expanded detail-open' : 'collapsed' ?>">
                     <div class="accordion-cell-content">
                         <img src="assets/images/game-candidate-p2.png" class="candidate-pset candidate-p2">
-                        <a href="game_main.php?lv=2" class="startBtn">開始遊戲</a>
+                        <a url="game_main.php?lv=2" class="startBtn">開始遊戲</a>
                     </div>
                 </div>
                 <div class="accordion-cell  <?php echo $_SESSION['game_level']  == 3 ? 'expanded detail-open' : 'collapsed' ?>">
                     <div class="accordion-cell-content">
                         <img src="assets/images/game-candidate-p3.png" class="candidate-pset candidate-p3">
-                        <a href="game_main.php?lv=3" class="startBtn">開始遊戲</a>
+                        <a url="game_main.php?lv=3" class="startBtn">開始遊戲</a>
                     </div>
                 </div>
             </div>
@@ -94,9 +102,9 @@
     <!--game cut-1 start-->
     <div class="game-choice refrommiddle">
         <div class="owl-carousel carousel-type1">
-            <div><a href="game_main.php?lv=1"><img src="assets/images/game_role_1_m.png" class="Imgfull"></a></div>
-            <div><a href="game_main.php?lv=2"><img src="assets/images/game_role_2_m.png" class="Imgfull"></a></div>
-            <div><a href="game_main.php?lv=3"><img src="assets/images/game_role_3_m.png" class="Imgfull"></a></div>
+            <div class="startBtn" url="game_main.php?lv=1"><a url="game_main.php?lv=1"><img src="assets/images/game_role_1_m.png" class="Imgfull"></a></div>
+            <div class="startBtn" url="game_main.php?lv=2"><a url="game_main.php?lv=2"><img src="assets/images/game_role_2_m.png" class="Imgfull"></a></div>
+            <div class="startBtn" url="game_main.php?lv=3"><a url="game_main.php?lv=3"><img src="assets/images/game_role_3_m.png" class="Imgfull"></a></div>
         </div>
         <!--左右鍵 start-->
         <div class="cut-arrow-left">
@@ -121,9 +129,23 @@
 
 <?php include 'footer.php';?>
 <!-- scrollreveal JS File -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzicato/0.6.4/Pizzicato.min.js"></script>
 <script src="assets/js/accordion.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        var sound = new Pizzicato.Sound({
+            source: 'file',
+            options: { path: 'sounds/select.mp3'   }
+        }, function() {
+            console.log('sound file loaded!');
+        });
+        var sound2 = new Pizzicato.Sound({
+            source: 'file',
+            options: { path: 'sounds/start.mp3'   }
+        }, function() {
+            console.log('sound file loaded!');
+        });
+
         let _startPosition = _level-1;
         var owl = $('.carousel-type1');
         owl.owlCarousel({
@@ -160,12 +182,34 @@
         });
 
         $('.customNextBtn').click(function () {
+            sound.play();
             owl.trigger('next.owl.carousel');
         })
         // Go to the previous item
         $('.customPrevBtn').click(function () {
+            sound.play();
             owl.trigger('prev.owl.carousel');
         })
+
+        $('.accordion-cell').click(function(){
+            sound.play();
+        });
+
+        $('.startBtn').mouseover(function(){
+            sound.volume = 0;
+            console.log(0);
+        });
+        $('.startBtn').mouseout(function(){
+            sound.volume = 1;
+            console.log(1);
+        });
+        $('.startBtn').click(function(){
+            url = $(this).attr('url');
+            sound2.play();
+            setTimeout(function(){
+                location.href = url ;
+            },1000);
+        });
     });
 </script>
 </body>

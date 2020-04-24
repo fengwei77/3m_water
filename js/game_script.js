@@ -43,7 +43,7 @@ let germs_speed = 0.8;
 let germs_speed_base = 1;
 let germs_generate_speed = 30;
 let damage_speed = 60;
-let countdown = 3;
+let countdown = 20;
 let damage_ratio = 0.5;
 let health_width = 220;
 let health_width_in = 220;
@@ -56,7 +56,7 @@ let germs_width = 80;
 let germs_origin_height = 1;
 let germs_origin_fade_in = 0.1;
 let germs_origin_fade_out = 4;
-let block_wall_ratio = 0.88;
+let block_wall_ratio = 0.84;
 let block_wall_op = 0;
 let unmute = true;
 console.log('mobile' + md.mobile());
@@ -64,24 +64,35 @@ if (level == 1) {
     germs_speed = 1;
     germs_speed_base = 1;
     germs_generate_speed = 40;
-    damage_ratio = 0.05;
+    damage_ratio = 0.1;
+    countdown = 20;
 } else if (level == 2) {
     germs_speed = 1;
     germs_speed_base = 1;
     germs_generate_speed = 40;
     damage_ratio = 0.1;
+    countdown = 20;
 } else if (level == 3) {
     germs_speed = 1;
     germs_speed_base = 1;
     germs_generate_speed = 25;
     damage_ratio = 0.2;
-} else {
+    countdown = 40;
+} else if (level == 99) {
+    level = 3;
+    germs_speed = 0.1;
+    germs_speed_base = 1;
+    germs_generate_speed = 10;
+    damage_ratio = 0.1;
+    countdown = 10;
+}else {
     germs_speed = 1;
     germs_speed_base = 1;
     germs_generate_speed = 40;
+    countdown = 20;
 }
 if (WIDTH < 750 && md.mobile() != null) {
-    block_wall_ratio = 0.66;
+    block_wall_ratio = 0.64;
     germs_origin_fade_out = 1.7;
 }
 let gameScene, bg_sprite, state, health, bg_container, germs_pop, all_obj_container, germs_no, germs_alive, time_sprite,

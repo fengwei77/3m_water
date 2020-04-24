@@ -138,7 +138,33 @@ if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
         console.log(response);                   // The current login status of the person.
         if (response.status === 'connected') {   // Logged into your webpage and Facebook.
             has_login = true;
+            FB.api('/me', function (response) {
+                if(response.email != undefined){
+                    fb_email = response.email;
+                }
+                fb_name = response.name;
+                fb_id = response.id;
+                let config = {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    withCredentials: true,
+                }
+                let formData = new FormData();
+                formData.append('fb_id', fb_id);
+                formData.append('fb_name', fb_name);
+                formData.append('fb_id', fb_id);
+                axios.post(
+                    'game_ss.php',
+                    formData,
+                    config
+                ).then(function (response) {
+
+                });
+            });
         }
+        console.log(has_login);
     }
 
 
@@ -175,40 +201,71 @@ if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
     }(document, 'script', 'facebook-jssdk'));
 
     $('.go_game').click(function () {
-        if(has_login){
-
-            location.href="game.php";
-        }
-
-         FB.login(function (response) {
-            if (response.authResponse) {
-                FB.api('/me', function (response) {
-                    if(response.email != undefined){
-                        fb_email = response.email;
-                    }
-                    fb_name = response.name;
-                    fb_id = response.id;
-                    let config = {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        withCredentials: true,
-                    }
-                    let formData = new FormData();
-                    formData.append('fb_id', fb_id);
-                    formData.append('fb_name', fb_name);
-                    formData.append('fb_id', fb_id);
-                    axios.post(
-                        'game_ss.php',
-                        formData,
-                        config
-                    ).then(function (response) {
-                        location.href="game.php";
-                    });
-                });
-            }
+        FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+            statusChangeCallback(response);        // Returns the login status.
         });
+        if(has_login){
+            FB.api('/me', function (response) {
+
+                console.log('m1_1');
+                fb_name = response.name;
+                fb_id = response.id;
+                let config = {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    withCredentials: true,
+                }
+                let formData = new FormData();
+                formData.append('fb_id', fb_id);
+                formData.append('fb_name', fb_name);
+                formData.append('fb_id', fb_id);
+                axios.post(
+                    'game_ss.php',
+                    formData,
+                    config
+                ).then(function (response) {
+                    console.log(response.data);
+                    if(response.data != '') {
+                        location.href = "game.php";
+                    }
+                });
+            });
+        }else {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    FB.api('/me', function (response) {
+                        // if(response.email != undefined){
+                        //     fb_email = response.email;
+                        // }
+                        console.log('m1_2');
+                        fb_name = response.name;
+                        fb_id = response.id;
+                        let config = {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            withCredentials: true,
+                        }
+                        let formData = new FormData();
+                        formData.append('fb_id', fb_id);
+                        formData.append('fb_name', fb_name);
+                        formData.append('fb_id', fb_id);
+                        axios.post(
+                            'game_ss.php',
+                            formData,
+                            config
+                        ).then(function (response) {
+                            console.log(response.data);
+                            if(response.data != '') {
+                                location.href = "game.php";
+                            }
+                        });
+                    });
+                }
+            });
+        }
     });
 
 </script>

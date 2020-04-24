@@ -188,7 +188,7 @@ $_SESSION['g_start'] = $date->getTimestamp();
                     <div class="detail">
                         <span class="subject">操作說明</span>
                         移動滑鼠點擊螢幕上相對應的3M產品特色BAR以過濾有害物質<br>越精準點擊，越能獲取成功喔！
-                        <div class="extra"><a class="go_game" style="cursor: pointer">GO!</a></div>
+                        <div class="extra"><a class="go_game" style="cursor: pointer">GO</a></div>
                     </div>
                 </div>
             </div>
